@@ -1,6 +1,8 @@
 # Research Figure Skill
 
-一个 Claude Code Skill，帮助 CS 研究者通过简短对话，从模糊的论文想法/摘要出发，生成高质量的 LaTeX TikZ 方法流程图。
+一个 Claude Code Skill，帮助研究者通过简短对话，从模糊的论文想法/摘要出发，快速生成流程图的草稿。
+
+如果需要高质量的结果，那么还是需要手工使用专业软件对图片进行排版。
 
 ## 功能特性
 
@@ -90,7 +92,9 @@ examples/                             # 使用案例
 
 **生成结果：**
 
-![NeRF Pipeline](examples/example1_nerf_pipeline.png)
+<p align="center">
+  <img src="examples/example1_nerf_pipeline.png" width="90%" />
+</p>
 
 - **配色**：Blue-Gray（经典学术蓝灰）
 - **布局**：直线型（从左到右）
@@ -107,7 +111,9 @@ examples/                             # 使用案例
 
 **生成结果：**
 
-![Diffusion Pipeline](examples/example2_diffusion_pipeline.png)
+<p align="center">
+  <img src="examples/example2_diffusion_pipeline.png" width="90%" />
+</p>
 
 - **配色**：Warm Tones（暖色系，突出创新）
 - **布局**：直线型主流程 + 底部噪声输入和 Loss
@@ -124,7 +130,9 @@ examples/                             # 使用案例
 
 **生成结果：**
 
-![Multi-modal LLM Pipeline](examples/example3_multimodal_llm.png)
+<p align="center">
+  <img src="examples/example3_multimodal_llm.png" width="90%" />
+</p>
 
 - **配色**：Purple-Blue（优雅紫蓝）
 - **布局**：多分支合并型（双输入分支 → concat → 主模块）
@@ -142,13 +150,13 @@ examples/                             # 使用案例
 
 ## 排版模板一览
 
-| 模板 | 适用场景 |
-|------|----------|
-| **直线型（水平）** | 最常见，3-6 个阶段的顺序 pipeline |
-| **直线型（垂直）** | 窄页面，双栏论文单栏图 |
-| **环型（U 形）** | 迭代方法、GAN 训练循环、强化学习 |
-| **两模块独立** | 多阶段方法（如训练+推理分离） |
-| **多分支合并** | 多模态、多尺度、集成方法 |
+| 模板 | 预览 | 适用场景 |
+|------|------|----------|
+| **直线型（水平）** | <img src=".claude/skills/research-figure/templates/template1_linear_h.png" height="40"/> | 最常见，3-6 个阶段的顺序 pipeline |
+| **直线型（垂直）** | <img src=".claude/skills/research-figure/templates/template2_linear_v.png" height="80"/> | 窄页面，双栏论文单栏图 |
+| **环型（U 形）** | <img src=".claude/skills/research-figure/templates/template3_loop_ushape.png" height="60"/> | 迭代方法、GAN 训练循环、强化学习 |
+| **两模块独立** | <img src=".claude/skills/research-figure/templates/template4_two_independent.png" height="60"/> | 多阶段方法（如训练+推理分离） |
+| **多分支合并** | <img src=".claude/skills/research-figure/templates/template5_multi_branch.png" height="60"/> | 多模态、多尺度、集成方法 |
 
 ## 设计原则
 

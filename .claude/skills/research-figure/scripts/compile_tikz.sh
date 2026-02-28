@@ -77,19 +77,13 @@ if command -v pdftoppm &>/dev/null; then
     fi
 fi
 
-# Method 2: sips (macOS built-in) - need to handle DPI scaling manually
-if [[ "$convert_success" == false ]] && command -v sips &>/dev/null; then
-    echo "Converting PDF to PNG using sips (dpi=$DPI) ..."
-    # sips converts PDF at 72dpi by default, need to scale up
-    sips -s format png "$PDF_FILE" --out "$PNG_FILE" &>/dev/null
+# Method 2: Ghostscript (renders PDF at true high DPI)
+if [[ "$convert_success" == false ]] && command -v gs &>/dev/null; then
+    echo "Converting PDF to PNG using Ghostscript (dpi=$DPI) ..."
+    gs -dNOPAUSE -dBATCH -sDEVICE=png16m -r"$DPI" \
+       -dTextAlphaBits=4 -dGraphicsAlphaBits=4 \
+       -sOutputFile="$PNG_FILE" "$PDF_FILE" &>/dev/null
     if [[ -f "$PNG_FILE" ]]; then
-        # Scale up to match requested DPI (sips default is 72dpi)
-        SCALE_FACTOR=$(echo "scale=2; $DPI / 72" | bc)
-        ORIG_W=$(sips -g pixelWidth "$PNG_FILE" | tail -1 | awk '{print $2}')
-        ORIG_H=$(sips -g pixelHeight "$PNG_FILE" | tail -1 | awk '{print $2}')
-        NEW_W=$(echo "$ORIG_W * $SCALE_FACTOR / 1" | bc)
-        NEW_H=$(echo "$ORIG_H * $SCALE_FACTOR / 1" | bc)
-        sips -z "$NEW_H" "$NEW_W" "$PNG_FILE" &>/dev/null
         convert_success=true
     fi
 fi
@@ -103,9 +97,21 @@ if [[ "$convert_success" == false ]] && command -v convert &>/dev/null; then
     fi
 fi
 
+# Method 4: sips (macOS built-in, 72dpi only - low quality fallback)
+if [[ "$convert_success" == false ]] && command -v sips &>/dev/null; then
+    echo "WARNING: Falling back to sips (72dpi only, low quality)."
+    echo "Install poppler or ghostscript for high-quality output:"
+    echo "  brew install poppler    # or"
+    echo "  brew install ghostscript"
+    sips -s format png "$PDF_FILE" --out "$PNG_FILE" &>/dev/null
+    if [[ -f "$PNG_FILE" ]]; then
+        convert_success=true
+    fi
+fi
+
 if [[ "$convert_success" == false ]]; then
     echo "WARNING: Could not convert PDF to PNG."
-    echo "Install one of: poppler (pdftoppm), ImageMagick (convert)"
+    echo "Install one of: poppler (pdftoppm), ghostscript (gs), ImageMagick (convert)"
     echo "  macOS:  brew install poppler"
     echo "  Ubuntu: sudo apt-get install poppler-utils"
     echo "PDF is still available at: $PDF_FILE"

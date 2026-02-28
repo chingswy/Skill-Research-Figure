@@ -55,8 +55,9 @@ Skill 会自动激活，引导你完成整个流程。
   ```
 - **PDF 转 PNG 工具**（至少安装一个）：
   - `pdftoppm`（推荐，来自 poppler）：`brew install poppler`
-  - `sips`（macOS 自带）
+  - `gs`（Ghostscript，高质量）：`brew install ghostscript`
   - `convert`（ImageMagick）
+  - `sips`（macOS 自带，仅 72dpi，质量较低）
 
 ## 项目结构
 
@@ -93,7 +94,7 @@ examples/                             # 使用案例
 **生成结果：**
 
 <p align="center">
-  <img src="examples/example1_nerf_pipeline.png" width="90%" />
+  <a href="examples/example1_nerf_pipeline.pdf"><img src="examples/example1_nerf_pipeline.png" width="90%" /></a>
 </p>
 
 - **配色**：Blue-Gray（经典学术蓝灰）
@@ -112,7 +113,7 @@ examples/                             # 使用案例
 **生成结果：**
 
 <p align="center">
-  <img src="examples/example2_diffusion_pipeline.png" width="90%" />
+  <a href="examples/example2_diffusion_pipeline.pdf"><img src="examples/example2_diffusion_pipeline.png" width="90%" /></a>
 </p>
 
 - **配色**：Warm Tones（暖色系，突出创新）
@@ -131,7 +132,7 @@ examples/                             # 使用案例
 **生成结果：**
 
 <p align="center">
-  <img src="examples/example3_multimodal_llm.png" width="90%" />
+  <a href="examples/example3_multimodal_llm.pdf"><img src="examples/example3_multimodal_llm.png" width="90%" /></a>
 </p>
 
 - **配色**：Purple-Blue（优雅紫蓝）
@@ -152,11 +153,11 @@ examples/                             # 使用案例
 
 | 模板 | 预览 | 适用场景 |
 |------|------|----------|
-| **直线型（水平）** | <img src=".claude/skills/research-figure/templates/template1_linear_h.png" height="40"/> | 最常见，3-6 个阶段的顺序 pipeline |
-| **直线型（垂直）** | <img src=".claude/skills/research-figure/templates/template2_linear_v.png" height="80"/> | 窄页面，双栏论文单栏图 |
-| **环型（U 形）** | <img src=".claude/skills/research-figure/templates/template3_loop_ushape.png" height="60"/> | 迭代方法、GAN 训练循环、强化学习 |
-| **两模块独立** | <img src=".claude/skills/research-figure/templates/template4_two_independent.png" height="60"/> | 多阶段方法（如训练+推理分离） |
-| **多分支合并** | <img src=".claude/skills/research-figure/templates/template5_multi_branch.png" height="60"/> | 多模态、多尺度、集成方法 |
+| **直线型（水平）** | <a href=".claude/skills/research-figure/templates/template1_linear_h.pdf"><img src=".claude/skills/research-figure/templates/template1_linear_h.png" height="40"/></a> | 最常见，3-6 个阶段的顺序 pipeline |
+| **直线型（垂直）** | <a href=".claude/skills/research-figure/templates/template2_linear_v.pdf"><img src=".claude/skills/research-figure/templates/template2_linear_v.png" height="80"/></a> | 窄页面，双栏论文单栏图 |
+| **环型（U 形）** | <a href=".claude/skills/research-figure/templates/template3_loop_ushape.pdf"><img src=".claude/skills/research-figure/templates/template3_loop_ushape.png" height="60"/></a> | 迭代方法、GAN 训练循环、强化学习 |
+| **两模块独立** | <a href=".claude/skills/research-figure/templates/template4_two_independent.pdf"><img src=".claude/skills/research-figure/templates/template4_two_independent.png" height="60"/></a> | 多阶段方法（如训练+推理分离） |
+| **多分支合并** | <a href=".claude/skills/research-figure/templates/template5_multi_branch.pdf"><img src=".claude/skills/research-figure/templates/template5_multi_branch.png" height="60"/></a> | 多模态、多尺度、集成方法 |
 
 ## 设计原则
 

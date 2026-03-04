@@ -1,21 +1,55 @@
 ---
 name: research-figure
 description: >
-  Generate publication-quality LaTeX TikZ method pipeline/flowchart figures for academic papers.
-  Use this skill whenever the user wants to create a method overview figure, pipeline diagram,
-  architecture diagram, or system flowchart for their research paper. Also trigger when the user
-  describes their paper's method and wants a visual representation, mentions "method figure",
-  "pipeline figure", "architecture diagram", "flow diagram", "方法流程图", "画图", or wants to
-  visualize their approach/framework/system in a paper. Even if the user just says "draw my method",
-  "I need a figure for my paper", "help me make a figure", or describes a pipeline and asks for a
-  diagram, this skill should activate.
+  Generate publication-quality figures for academic papers: LaTeX TikZ method pipelines
+  and Blender 3D renders. Use this skill for method overview figures, pipeline diagrams,
+  architecture diagrams, system flowcharts, 3D rendered teasers, SMPL/FBX mesh renders,
+  skeleton visualizations, method comparisons, or any research figure need. Trigger on:
+  "method figure", "pipeline figure", "architecture diagram", "flow diagram", "teaser",
+  "3D render", "SMPL", "FBX", "mesh render", "Blender", "blender figure", "teaser figure",
+  "skeleton render", "3D comparison", "方法流程图", "画图", "渲染", "三维",
+  "draw my method", "I need a figure for my paper", "help me make a figure".
 ---
 
-# Research Figure: LaTeX TikZ Method Pipeline Generator
+# Research Figure: TikZ Pipeline & Blender 3D Render Generator
 
-Generate publication-quality method pipeline figures through a streamlined conversation: understand the method, confirm structure, generate TikZ code, compile, and iterate.
+Generate publication-quality figures through a streamlined conversation: understand the visualization need, confirm structure, generate code (TikZ or Blender Python), render, and iterate.
 
-## Design Principles
+## Prerequisites
+
+- **TikZ path**: pdflatex with TikZ packages (install via `brew install --cask mactex-no-gui` on macOS)
+- **Blender path**: Blender 3.x+ (set `BLENDER_PATH` env var, or install to `/Applications/` on macOS, or add to PATH)
+
+---
+
+## Phase 0: Route
+
+Decide whether this is a **TikZ** or **Blender** figure based on the user's request.
+
+**Choose TikZ** when the user wants:
+- Method pipeline / flowchart / architecture diagram
+- 2D box-and-arrow figures
+- Any figure that is primarily text, boxes, and arrows
+
+**Choose Blender** when the user wants:
+- 3D rendered mesh (SMPL, FBX, OBJ)
+- Teaser figure with multiple 3D characters
+- Side-by-side method comparison with 3D meshes
+- Skeleton visualization (3D keypoints + limbs)
+- Bounding box visualization around 3D objects
+- Any figure requiring 3D rendering
+
+**Choose Hybrid (TikZ + Blender)** when:
+- A pipeline figure has modules that need 3D-rendered illustrations
+- E.g., a "3D Pose Estimation" module box should contain a rendered mesh image
+
+If ambiguous, ask the user.
+
+---
+
+## TikZ Path
+
+### Design Principles
 
 These principles come from best practices in academic figure design:
 
@@ -26,9 +60,7 @@ These principles come from best practices in academic figure design:
 5. **Highlight contributions**: The user's novel contribution modules should be visually distinct (thicker border, different background color) from standard modules.
 6. **2D visualization elements**: Replace plain text with stylized visual elements where possible (feature maps as stacked rectangles, network blocks as labeled boxes, etc.). Keep these elements simple and 2D — no 3D rendering needed.
 
-## Workflow
-
-### Phase 1: Understand the Method
+### TikZ Phase 1: Understand the Method
 
 When the user provides a description (abstract, method summary, or even a vague idea):
 
@@ -45,7 +77,7 @@ When the user provides a description (abstract, method summary, or even a vague 
    - Multi-branch (parallel processing)
    - Two-stage (train + inference, or two sub-problems)
 
-### Phase 2: Confirm with User (1-2 rounds)
+### TikZ Phase 2: Confirm with User (1-2 rounds)
 
 Present the extracted structure to the user in a clear, structured format using AskUserQuestion or direct conversation. Keep this brief — the goal is to confirm, not to design from scratch.
 
@@ -72,7 +104,7 @@ Color scheme: Blue-Gray (default)
 
 If the method is straightforward, skip Round 2 and proceed directly to generation.
 
-### Phase 3: Generate TikZ Code
+### TikZ Phase 3: Generate TikZ Code
 
 Read the reference files to assemble the figure:
 
@@ -100,7 +132,7 @@ Read the reference files to assemble the figure:
 
 5. **Write the `.tex` file** to the working directory (e.g., `figure.tex` or a user-specified name).
 
-### Phase 4: Compile and Self-Check
+### TikZ Phase 4: Compile and Self-Check
 
 1. **Compile** using the bundled script:
    ```bash
@@ -127,7 +159,7 @@ Read the reference files to assemble the figure:
 
 5. **If issues found**: fix the TikZ code and recompile. Do NOT show a broken figure to the user.
 
-### Phase 5: Present and Iterate
+### TikZ Phase 5: Present and Iterate
 
 1. Show the compiled figure to the user (the PNG image).
 2. Explain the structure briefly.
@@ -138,18 +170,124 @@ Read the reference files to assemble the figure:
    - Include it directly in their paper with `\input{}`
    - Or compile it standalone and include via `\includegraphics{}`
 
+---
+
+## Blender Path
+
+### Blender Phase 1: Understand the Visualization
+
+Identify the use case:
+
+| Use Case | Description | Template |
+|----------|-------------|----------|
+| **Teaser** | N characters along X-axis, gradient materials, ground + fog + trajectory | `templates/blender/template_teaser.py` |
+| **Pipeline Module** | Single mesh with transparent bg, for inclusion in TikZ | `templates/blender/template_single_render.py` |
+| **Comparison** | 2+ characters, different colors (blue=ours, red=baseline) | `templates/blender/template_comparison.py` |
+| **Skeleton** | 3D keypoint spheres + limb cylinders | Recipe D in `references/blender_recipes.md` |
+| **Bbox + Mesh** | Wireframe bbox around a mesh | Recipe E in `references/blender_recipes.md` |
+
+Extract from the user's request:
+- Data file paths (FBX, OBJ, NPZ)
+- Frame indices (which animation frames to show)
+- Number of characters / instances
+- Style preferences (colors, camera angle, with/without ground)
+
+### Blender Phase 2: Confirm with User
+
+Present a structured summary:
+```
+Figure type: Multi-character teaser
+Data: motion.fbx, frames [1, 30, 60, 90, 120, 150]
+Layout: 6 characters along X-axis, spacing 1.5m
+Camera: Wide shot, focal 85mm
+Lighting: Studio three-point
+Material: Gradient blue clay
+Ground: Checkerboard with reflections
+Fog: Yes (blue-gray)
+Trajectory: Yes (gradient curve with arrow)
+Output: 2048x1024 JPEG
+```
+
+One round is usually sufficient. Proceed to generation.
+
+### Blender Phase 3: Generate Blender Script
+
+1. **Read `references/blender_api.md`** for function signatures.
+2. **Read `references/blender_recipes.md`** for the matching recipe pattern.
+3. **Generate a complete Python script** that imports from `blender_utils.*` (NOT from `myblender.*`).
+4. **Write the script** to the working directory (e.g., `render_teaser.py`).
+
+The script must be self-contained and runnable via:
+```bash
+bash .claude/skills/research-figure/scripts/render_blender.sh <script.py> -- [args]
+```
+
+### Blender Phase 4: Render and Self-Check
+
+1. **Run the render**:
+   ```bash
+   bash .claude/skills/research-figure/scripts/render_blender.sh <script.py> -- [args]
+   ```
+
+2. **If rendering fails**: read the error output, fix the Python script, and retry. Common issues:
+   - `ModuleNotFoundError` → PYTHONPATH issue (render_blender.sh handles this automatically)
+   - `KeyError` on node inputs → Blender version compatibility (use try/except)
+   - Black/empty render → camera not set, or objects not visible
+   - GPU errors → set `prefer_gpu=False` in set_cycles_renderer
+
+3. **View the result**: Use the Read tool to view the rendered image.
+
+4. **Self-check**:
+   - [ ] Objects are visible and properly positioned
+   - [ ] Camera angle shows the subject clearly
+   - [ ] Lighting is even (no overly dark or blown-out areas)
+   - [ ] Materials look professional (not default gray)
+   - [ ] Background is clean (transparent or solid as intended)
+   - [ ] Resolution is sufficient for the figure type
+
+### Blender Phase 5: Present and Iterate
+
+1. Show the rendered image to the user.
+2. Explain what was rendered.
+3. Ask for feedback (camera angle, lighting, materials, spacing, etc.).
+4. Modify the script, re-render, and show again.
+5. Repeat until satisfied.
+
+---
+
+## Hybrid: TikZ + Blender Recursive Call
+
+When a TikZ pipeline figure needs 3D-rendered module illustrations:
+
+1. **During TikZ Phase 1-2**: Identify modules that need 3D illustrations (e.g., "3D Pose Estimation" module should show a rendered mesh).
+
+2. **Before TikZ Phase 3**: For each module needing 3D:
+   - Generate a Blender script using the **Pipeline Module** recipe (Recipe A)
+   - Render it to a transparent PNG via `render_blender.sh`
+   - Note the output path
+
+3. **In TikZ Phase 3**: Reference the rendered PNGs in the TikZ code:
+   ```latex
+   \node[inner sep=0pt] at (module_center) {\includegraphics[width=2.5cm]{rendered_module.png}};
+   ```
+
+4. **TikZ Phase 4-5**: Compile and iterate as usual — the rendered PNGs are already available.
+
+This way, the final TikZ figure seamlessly includes 3D-rendered elements.
+
+---
+
 ## Important Notes
 
-- Always generate **complete, standalone** `.tex` files that compile on their own. Never output partial snippets.
-- The figure should be designed for **academic papers** — clean, professional, understated. Not flashy.
-- When in doubt about layout details, choose the simpler option. Less is more.
-- If the user's method is very complex, consider breaking it into sub-figures or simplifying the visualization. A cluttered figure is worse than a simplified one.
+- Always generate **complete, standalone** files (`.tex` or `.py`) that work on their own. Never output partial snippets.
+- Figures should be designed for **academic papers** — clean, professional, understated. Not flashy.
+- When in doubt, choose the simpler option. Less is more.
 - The `standalone` document class with `border=5pt` produces a tightly cropped PDF, perfect for `\includegraphics`.
-- For figures wider than typical column width (~8.5cm), suggest using a `figure*` environment (spanning two columns).
+- For figures wider than typical column width (~8.5cm), suggest using a `figure*` environment.
+
+---
 
 ## Common TikZ Pitfalls
-
-When generating TikZ code, avoid these common mistakes:
 
 1. **Duplicate node names**: In TikZ, `\node[...] (name) ...` renders a visible node each time it is called, even if `name` is reused. Only the *last* definition is reachable by name — earlier ones become orphaned but still visible on the canvas. **Fix**: Use `\coordinate` for temporary positioning points, and only create the final `\node` once.
 
@@ -165,3 +303,26 @@ When generating TikZ code, avoid these common mistakes:
 5. **Orthogonal offset must clear group box padding**: When drawing an orthogonal path between two group boxes (e.g., `(outA.south) -- ++(0, -Xcm) -| (inB.north)`), the vertical offset `X` must account for the group box's `inner sep` (typically 10pt ≈ 0.35cm). If the offset is too small, the horizontal segment will be visually occluded by the group box boundary. **Fix**: Set the offset to at least half the gap between the two group boxes. For example, with `below=2.0cm` spacing and `inner sep=10pt`, the visible gap is roughly `2.0 - 2×0.35 ≈ 1.3cm`, so use `-1.0cm` (not `-0.5cm`) to place the horizontal segment in the middle of the gap.
 
 6. **Fork/merge routing asymmetry**: When fixing orthogonal routing on one side of a fork-merge pattern (e.g., the merge side: `procA → merge`), always check the other side (the fork side: `input → brA/brB`) for the same diagonal-line problem. Both sides must use consistent orthogonal routing with `rounded corners` and `|-` or `-|` operators. A common mistake is fixing the merge arrows but forgetting the fork arrows remain as plain `--` diagonals.
+
+---
+
+## Common Blender Pitfalls
+
+1. **PYTHONPATH**: `render_blender.sh` sets this automatically. For manual runs: `export PYTHONPATH=/path/to/skill/directory:$PYTHONPATH`
+
+2. **Version compatibility**: Use try/except for Principled BSDF inputs that changed between Blender versions:
+   - `Emission Color` (4.0+) vs `Emission` (3.x)
+   - `Subsurface Weight` (4.0+) vs `Subsurface` (3.x)
+   - `Specular IOR Level` (4.0+) vs `Specular` (3.x)
+   - `Coat Weight` (4.0+) vs `Clearcoat` (3.x)
+   - `ShaderNodeMix` (3.4+) vs `ShaderNodeMixRGB` (older)
+
+3. **Transparent bg + fog conflict**: `setup_mist_fog()` uses a compositor that overrides `Film > Transparent`. If you need fog, set `use_transparent_bg=False` in `set_cycles_renderer()`.
+
+4. **Focal length guide**: 30mm = wide (exaggerated perspective), 50mm = normal (standard figure), 85mm = portrait/telephoto (compressed perspective, good for teasers with many characters).
+
+5. **GPU rendering**: `set_cycles_renderer()` auto-detects GPU. If rendering is slow or fails, pass `prefer_gpu=False` to fall back to CPU.
+
+6. **Material order**: Apply materials AFTER loading meshes. Clear existing materials first with `mesh_obj.data.materials.clear()`.
+
+7. **Ground plane size**: Use `plane_size=100` for teaser with fog (fog hides edges), `plane_size=10` for close-up single character.

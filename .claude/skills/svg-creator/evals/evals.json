@@ -1,0 +1,23 @@
+{
+  "skill_name": "svg-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我画个流程图，我们的CI/CD流程是这样的：开发者push代码到GitLab，触发Jenkins构建，构建成功后跑单元测试，测试通过就部署到staging环境，QA验证通过后手动审批，然后部署到production。如果测试失败就通知开发者修复。",
+      "expected_output": "一个手绘风格的SVG流程图，包含GitLab、Jenkins、测试、Staging、QA、Production等节点，有分支（测试通过/失败），整体有sketchy效果和hatching填充",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我想画个外卖订单系统的架构图。用户在App下单，订单发到订单服务，然后同时通知支付服务扣款和通知骑手调度系统派单。支付成功后更新订单状态，骑手接单后开始配送，配送完成用户确认收货。",
+      "expected_output": "一个手绘风格的SVG架构/流程图，包含用户App、订单服务、支付服务、骑手调度等模块，有并行分支，sketchy效果",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Draw me a diagram of our team's code review process: developer creates a PR, automated linting runs, then 2 reviewers must approve. If changes requested, developer updates the PR and it goes back for review. Once approved, CI runs full test suite, if green it auto-merges to main.",
+      "expected_output": "A hand-drawn SVG flowchart in English with PR, linting, review, CI/merge nodes, feedback loop for changes requested, sketchy style with handwriting fonts",
+      "files": []
+    }
+  ]
+}

@@ -2,15 +2,47 @@
 
 Common patterns for generating research figures with `blender_utils`. Each recipe describes a complete script structure.
 
+## Two-Pass Render Pattern (MANDATORY)
+
+Every generated Blender script **MUST** implement a two-pass workflow:
+
+1. **Preview pass** (`--preview`): Use Eevee at low resolution for fast layout/composition check
+2. **Final pass** (default): Use Cycles at full resolution for publication-quality output
+
+The workflow is: **always render preview first** → show to user → get approval → then render final.
+
+```python
+# In the render section of every script:
+scene = bpy.context.scene
+if args.preview:
+    set_eevee_renderer(scene, camera)
+    set_output_properties(scene, output_file_path=preview_path,
+                          res_x=LOW_RES_X, res_y=LOW_RES_Y, format='PNG')
+else:
+    set_cycles_renderer(scene, camera, num_samples=SAMPLES, ...)
+    set_output_properties(scene, output_file_path=output_path,
+                          res_x=FULL_RES_X, res_y=FULL_RES_Y, format=FMT)
+render_with_progress()
+```
+
+| Figure Type | Preview Resolution | Final Resolution |
+|-------------|-------------------|------------------|
+| Teaser | 800x400 | 2048x1024 |
+| Single render | 512x512 | 1024x1024 |
+| Comparison | 960x540 | 1920x1080 |
+| Skeleton | 512x512 | 1024x1024 |
+
 ---
 
 ## Recipe A: Single Mesh/FBX Render (Pipeline Module)
 
 Transparent background, one character, simple lighting. Used as an illustration inside a TikZ pipeline figure.
 
+**All scripts MUST support `--preview` flag for two-pass rendering** (see Two-Pass Render Pattern below).
+
 ```python
 import bpy
-from blender_utils.scene import setup, set_cycles_renderer, set_output_properties, render_with_progress
+from blender_utils.scene import setup, set_eevee_renderer, set_cycles_renderer, set_output_properties, render_with_progress
 from blender_utils.camera import set_camera
 from blender_utils.lighting import add_sunlight
 from blender_utils.material import set_simple_color
@@ -32,15 +64,20 @@ camera = set_camera(height=1.2, radius=3, focal=50, center=(0, 0, 0.9))
 # 5. Lighting
 add_sunlight(location=(3, -2, 5), lookat=(0, 0, 1), strength=5)
 
-# 6. Render
+# 6. Render — branch on preview mode
 scene = bpy.context.scene
-set_cycles_renderer(scene, camera, num_samples=128, use_transparent_bg=True)
-set_output_properties(scene, output_file_path="/path/to/output.png",
-                      res_x=1024, res_y=1024, format='PNG')
+if args.preview:
+    set_eevee_renderer(scene, camera)
+    set_output_properties(scene, output_file_path="/path/to/output_preview.png",
+                          res_x=512, res_y=512, format='PNG')
+else:
+    set_cycles_renderer(scene, camera, num_samples=128, use_transparent_bg=True)
+    set_output_properties(scene, output_file_path="/path/to/output.png",
+                          res_x=1024, res_y=1024, format='PNG')
 render_with_progress()
 ```
 
-**Output**: 1024x1024 PNG with alpha. Ready for `\includegraphics` in TikZ.
+**Output**: 1024x1024 PNG with alpha (final) or 512x512 Eevee preview. Ready for `\includegraphics` in TikZ.
 
 ---
 
@@ -50,7 +87,7 @@ N characters along X-axis, gradient blue-clay materials, checkerboard ground + f
 
 ```python
 import bpy
-from blender_utils.scene import setup, set_cycles_renderer, set_output_properties, render_with_progress
+from blender_utils.scene import setup, set_eevee_renderer, set_cycles_renderer, set_output_properties, render_with_progress
 from blender_utils.camera import set_camera
 from blender_utils.lighting import setup_studio_three_point_lighting
 from blender_utils.material import set_gradient_blue_material, setup_mist_fog
@@ -95,15 +132,20 @@ setup_mist_fog(bpy.context.scene, start=8, depth=25, fog_color=(0.85, 0.88, 0.92
 camera = set_camera(height=2.5, radius=12, focal=85,
                     center=(N * spacing / 2 - spacing / 2, 0, 0.8))
 
-# Render
+# Render — branch on preview mode
 scene = bpy.context.scene
-set_cycles_renderer(scene, camera, num_samples=256, use_transparent_bg=False)
-set_output_properties(scene, output_file_path="/path/to/teaser.jpg",
-                      res_x=2048, res_y=1024, format='JPEG')
+if args.preview:
+    set_eevee_renderer(scene, camera)
+    set_output_properties(scene, output_file_path="/path/to/teaser_preview.png",
+                          res_x=800, res_y=400, format='PNG')
+else:
+    set_cycles_renderer(scene, camera, num_samples=256, use_transparent_bg=False)
+    set_output_properties(scene, output_file_path="/path/to/teaser.jpg",
+                          res_x=2048, res_y=1024, format='JPEG')
 render_with_progress()
 ```
 
-**Output**: 2048x1024 JPEG teaser figure.
+**Output**: 2048x1024 JPEG teaser (final) or 800x400 Eevee preview.
 
 ---
 

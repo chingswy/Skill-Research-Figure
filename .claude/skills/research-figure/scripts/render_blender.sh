@@ -8,6 +8,11 @@ set -euo pipefail
 SCRIPT="${1:?Usage: render_blender.sh <script.py> [-- extra_args...]}"
 shift
 
+# Strip the leading '--' separator if present (we add our own when invoking Blender)
+if [[ "${1:-}" == "--" ]]; then
+    shift
+fi
+
 if [[ ! -f "$SCRIPT" ]]; then
     echo "ERROR: Script not found: $SCRIPT"
     exit 2
@@ -62,7 +67,7 @@ echo "PYTHONPATH includes: $SKILL_DIR"
 echo "Running: $SCRIPT"
 echo "=========================================="
 
-RENDER_LOG=$(mktemp /tmp/blender_render_XXXXXX.log)
+RENDER_LOG=$(mktemp /tmp/blender_render_XXXXXXXX)
 
 if "$BLENDER" --background -noaudio --python "$SCRIPT" -- "$@" 2>&1 | tee "$RENDER_LOG"; then
     echo "=========================================="

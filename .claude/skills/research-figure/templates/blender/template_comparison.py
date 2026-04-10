@@ -4,7 +4,17 @@ Template: Side-by-Side Method Comparison
 Renders two FBX characters (ours vs baseline) side by side with different colors,
 same camera angle, ground plane, and clean lighting.
 
+Supports two-pass rendering:
+  --preview   Fast Eevee preview at low resolution (for layout check)
+  (default)   Final Cycles render at full resolution (publication quality)
+
 Usage:
+    # Fast preview
+    blender --background -noaudio --python template_comparison.py -- \\
+        --ours /path/to/ours.fbx --baseline /path/to/baseline.fbx \\
+        --frame 60 --output /path/to/comparison.png --preview
+
+    # Final render
     blender --background -noaudio --python template_comparison.py -- \\
         --ours /path/to/ours.fbx --baseline /path/to/baseline.fbx \\
         --frame 60 --output /path/to/comparison.png
@@ -15,7 +25,8 @@ import argparse
 import bpy
 
 from blender_utils.scene import (
-    setup, set_cycles_renderer, set_output_properties, render_with_progress
+    setup, set_eevee_renderer, set_cycles_renderer,
+    set_output_properties, render_with_progress
 )
 from blender_utils.camera import set_camera
 from blender_utils.lighting import setup_bright_studio_lighting
@@ -35,6 +46,8 @@ def parse_args():
     parser.add_argument("--samples", type=int, default=256, help="Render samples")
     parser.add_argument("--spacing", type=float, default=2.0,
                         help="Distance between the two characters")
+    parser.add_argument("--preview", action="store_true",
+                        help="Fast Eevee preview at low resolution")
     if '--' in sys.argv:
         args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     else:
@@ -73,11 +86,22 @@ def main():
     # 6. Camera
     camera = set_camera(height=1.5, radius=5, focal=50, center=(0, 0, 0.9))
 
-    # 7. Render
+    # 7. Render — two-pass: preview (Eevee) or final (Cycles)
     scene = bpy.context.scene
-    set_cycles_renderer(scene, camera, num_samples=args.samples)
-    set_output_properties(scene, output_file_path=args.output,
-                          res_x=1920, res_y=1080, format='PNG')
+    if args.preview:
+        # Fast preview: Eevee, low resolution
+        set_eevee_renderer(scene, camera)
+        base, ext = args.output.rsplit('.', 1) if '.' in args.output else (args.output, 'png')
+        preview_path = f"{base}_preview.png"
+        set_output_properties(scene, output_file_path=preview_path,
+                              res_x=960, res_y=540, format='PNG')
+        print(f"Preview mode: Eevee @ 960x540 -> {preview_path}")
+    else:
+        # Final render: Cycles, full resolution
+        set_cycles_renderer(scene, camera, num_samples=args.samples)
+        set_output_properties(scene, output_file_path=args.output,
+                              res_x=1920, res_y=1080, format='PNG')
+        print(f"Final mode: Cycles @ 1920x1080, {args.samples} samples -> {args.output}")
     render_with_progress()
 
 

@@ -4,7 +4,16 @@ Template: Single Mesh/FBX Render (for pipeline module illustrations)
 Renders a single FBX character at a specific frame with transparent background.
 Output is a clean PNG suitable for \\includegraphics in TikZ pipeline figures.
 
+Supports two-pass rendering:
+  --preview   Fast Eevee preview at low resolution (for layout check)
+  (default)   Final Cycles render at full resolution (publication quality)
+
 Usage:
+    # Fast preview
+    blender --background -noaudio --python template_single_render.py -- \\
+        /path/to/character.fbx --frame 30 --output /path/to/output.png --preview
+
+    # Final render
     blender --background -noaudio --python template_single_render.py -- \\
         /path/to/character.fbx --frame 30 --output /path/to/output.png
 """
@@ -14,7 +23,8 @@ import argparse
 import bpy
 
 from blender_utils.scene import (
-    setup, set_cycles_renderer, set_output_properties, render_with_progress
+    setup, set_eevee_renderer, set_cycles_renderer,
+    set_output_properties, render_with_progress
 )
 from blender_utils.camera import set_camera
 from blender_utils.lighting import add_sunlight
@@ -30,6 +40,8 @@ def parse_args():
     parser.add_argument("--output", type=str, default="render_single.png", help="Output file path")
     parser.add_argument("--samples", type=int, default=128, help="Render samples")
     parser.add_argument("--res", type=int, default=1024, help="Resolution (square)")
+    parser.add_argument("--preview", action="store_true",
+                        help="Fast Eevee preview at low resolution")
     if '--' in sys.argv:
         args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     else:
@@ -61,12 +73,24 @@ def main():
     add_sunlight(name="FillLight", location=(-2, -3, 3),
                  lookat=(0, 0, 0.8), strength=2)
 
-    # 6. Render with transparent background
+    # 6. Render — two-pass: preview (Eevee) or final (Cycles)
     scene = bpy.context.scene
-    set_cycles_renderer(scene, camera, num_samples=args.samples,
-                        use_transparent_bg=True)
-    set_output_properties(scene, output_file_path=args.output,
-                          res_x=args.res, res_y=args.res, format='PNG')
+    if args.preview:
+        # Fast preview: Eevee, low resolution
+        set_eevee_renderer(scene, camera)
+        base, ext = args.output.rsplit('.', 1) if '.' in args.output else (args.output, 'png')
+        preview_path = f"{base}_preview.png"
+        preview_res = max(args.res // 2, 256)
+        set_output_properties(scene, output_file_path=preview_path,
+                              res_x=preview_res, res_y=preview_res, format='PNG')
+        print(f"Preview mode: Eevee @ {preview_res}x{preview_res} -> {preview_path}")
+    else:
+        # Final render: Cycles, full resolution, transparent bg
+        set_cycles_renderer(scene, camera, num_samples=args.samples,
+                            use_transparent_bg=True)
+        set_output_properties(scene, output_file_path=args.output,
+                              res_x=args.res, res_y=args.res, format='PNG')
+        print(f"Final mode: Cycles @ {args.res}x{args.res}, {args.samples} samples -> {args.output}")
     render_with_progress()
 
 

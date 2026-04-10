@@ -5,7 +5,16 @@ Renders N copies of an FBX at different animation frames, spaced along the X axi
 Uses gradient blue-clay materials, checkerboard ground with reflections, studio
 three-point lighting, optional fog, and a gradient trajectory curve.
 
+Supports two-pass rendering:
+  --preview   Fast Eevee preview at low resolution (for layout/composition check)
+  (default)   Final Cycles render at full resolution (publication quality)
+
 Usage:
+    # Fast preview
+    blender --background -noaudio --python template_teaser.py -- \\
+        /path/to/motion.fbx --frames 1,30,60,90,120,150 --output /path/to/teaser.jpg --preview
+
+    # Final render
     blender --background -noaudio --python template_teaser.py -- \\
         /path/to/motion.fbx --frames 1,30,60,90,120,150 --output /path/to/teaser.jpg
 """
@@ -16,7 +25,8 @@ import bpy
 from mathutils import Vector
 
 from blender_utils.scene import (
-    setup, set_cycles_renderer, set_output_properties, render_with_progress
+    setup, set_eevee_renderer, set_cycles_renderer,
+    set_output_properties, render_with_progress
 )
 from blender_utils.camera import set_camera
 from blender_utils.lighting import setup_studio_three_point_lighting
@@ -42,6 +52,8 @@ def parse_args():
     parser.add_argument("--no-fog", action="store_true", help="Disable fog")
     parser.add_argument("--no-trajectory", action="store_true",
                         help="Disable trajectory curve")
+    parser.add_argument("--preview", action="store_true",
+                        help="Fast Eevee preview at low resolution")
     if '--' in sys.argv:
         args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
     else:
@@ -94,13 +106,24 @@ def main():
     camera = set_camera(height=2.5, radius=12, focal=85,
                         center=(center_x, 0, 0.8))
 
-    # 8. Render
+    # 8. Render — two-pass: preview (Eevee) or final (Cycles)
     scene = bpy.context.scene
-    fmt = 'JPEG' if args.output.lower().endswith('.jpg') or args.output.lower().endswith('.jpeg') else 'PNG'
-    set_cycles_renderer(scene, camera, num_samples=args.samples,
-                        use_transparent_bg=False)
-    set_output_properties(scene, output_file_path=args.output,
-                          res_x=2048, res_y=1024, format=fmt)
+    if args.preview:
+        # Fast preview: Eevee, low resolution
+        set_eevee_renderer(scene, camera)
+        base, ext = args.output.rsplit('.', 1) if '.' in args.output else (args.output, 'png')
+        preview_path = f"{base}_preview.png"
+        set_output_properties(scene, output_file_path=preview_path,
+                              res_x=800, res_y=400, format='PNG')
+        print(f"Preview mode: Eevee @ 800x400 -> {preview_path}")
+    else:
+        # Final render: Cycles, full resolution
+        fmt = 'JPEG' if args.output.lower().endswith(('.jpg', '.jpeg')) else 'PNG'
+        set_cycles_renderer(scene, camera, num_samples=args.samples,
+                            use_transparent_bg=False)
+        set_output_properties(scene, output_file_path=args.output,
+                              res_x=2048, res_y=1024, format=fmt)
+        print(f"Final mode: Cycles @ 2048x1024, {args.samples} samples -> {args.output}")
     render_with_progress()
 
 

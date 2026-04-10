@@ -215,18 +215,70 @@ One round is usually sufficient. Proceed to generation.
 1. **Read `references/blender_api.md`** for function signatures.
 2. **Read `references/blender_recipes.md`** for the matching recipe pattern.
 3. **Generate a complete Python script** that imports from `blender_utils.*` (NOT from `myblender.*`).
-4. **Write the script** to the working directory (e.g., `render_teaser.py`).
+4. **The script MUST support a `--preview` flag** that switches between fast preview and final render mode (see below).
+5. **Write the script** to the working directory (e.g., `render_teaser.py`).
 
 The script must be self-contained and runnable via:
 ```bash
 bash .claude/skills/research-figure/scripts/render_blender.sh <script.py> -- [args]
 ```
 
-### Blender Phase 4: Render and Self-Check
+#### Two-Pass Render Design
 
-1. **Run the render**:
+Every generated Blender script MUST support two rendering modes controlled by a `--preview` CLI flag:
+
+```python
+import argparse
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--preview", action="store_true",
+                        help="Fast low-res Eevee preview")
+    # ... other args ...
+    if '--' in sys.argv:
+        args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
+    else:
+        args = parser.parse_args([])
+    return args
+```
+
+In the render section, branch on `args.preview`:
+
+```python
+scene = bpy.context.scene
+if args.preview:
+    # Fast preview: Eevee, low resolution, PNG
+    set_eevee_renderer(scene, camera)
+    preview_path = output_path.rsplit('.', 1)[0] + '_preview.png'
+    set_output_properties(scene, output_file_path=preview_path,
+                          res_x=800, res_y=400, format='PNG')
+else:
+    # Final render: Cycles, full resolution
+    set_cycles_renderer(scene, camera, num_samples=256,
+                        use_transparent_bg=False)
+    set_output_properties(scene, output_file_path=output_path,
+                          res_x=2048, res_y=1024, format='JPEG')
+render_with_progress()
+```
+
+**Preview mode settings:**
+- Engine: **Eevee** (`set_eevee_renderer`) — orders of magnitude faster than Cycles
+- Resolution: **1/2 to 1/4 of final** (e.g., 800x400 for a 2048x1024 teaser)
+- Format: **PNG** (for quick viewing)
+- Output path: append `_preview` suffix before the extension
+
+**Final mode settings:**
+- Engine: **Cycles** (`set_cycles_renderer`) — ray-traced, publication quality
+- Resolution: full target resolution
+- Samples: 256+ for final quality
+
+### Blender Phase 4: Preview Render and Self-Check
+
+**Always render a fast preview first.** Do NOT go straight to a Cycles render.
+
+1. **Run the preview render**:
    ```bash
-   bash .claude/skills/research-figure/scripts/render_blender.sh <script.py> -- [args]
+   bash .claude/skills/research-figure/scripts/render_blender.sh <script.py> -- --preview
    ```
 
 2. **If rendering fails**: read the error output, fix the Python script, and retry. Common issues:
@@ -235,23 +287,44 @@ bash .claude/skills/research-figure/scripts/render_blender.sh <script.py> -- [ar
    - Black/empty render → camera not set, or objects not visible
    - GPU errors → set `prefer_gpu=False` in set_cycles_renderer
 
-3. **View the result**: Use the Read tool to view the rendered image.
+3. **View the preview image**: Use the Read tool to view the generated `*_preview.png`.
 
-4. **Self-check**:
+4. **Self-check** the preview:
    - [ ] Objects are visible and properly positioned
    - [ ] Camera angle shows the subject clearly
-   - [ ] Lighting is even (no overly dark or blown-out areas)
-   - [ ] Materials look professional (not default gray)
-   - [ ] Background is clean (transparent or solid as intended)
-   - [ ] Resolution is sufficient for the figure type
+   - [ ] Lighting is reasonable (Eevee lighting differs slightly from Cycles but composition should be correct)
+   - [ ] Materials are applied (not default gray)
+   - [ ] Background is clean
+   - [ ] Character spacing and layout look correct
 
-### Blender Phase 5: Present and Iterate
+5. **If issues found**: fix the script and re-run the preview. Do NOT show a broken figure to the user.
 
-1. Show the rendered image to the user.
-2. Explain what was rendered.
-3. Ask for feedback (camera angle, lighting, materials, spacing, etc.).
-4. Modify the script, re-render, and show again.
-5. Repeat until satisfied.
+### Blender Phase 5: Present Preview and Get Approval
+
+1. **Show the preview image** to the user.
+2. Explain that this is a **fast Eevee preview** for layout/composition check — the final Cycles render will have better lighting, materials, and anti-aliasing.
+3. **Ask the user to confirm** the preview looks correct before proceeding to the full render. Use AskUserQuestion with options like:
+   - "Looks good, render final version" — proceed to Phase 6
+   - "Adjust camera / lighting / spacing" — iterate on the script and re-render preview
+   - "Change frames / characters" — modify and re-render preview
+4. If the user requests changes, modify the script, re-run the **preview** (not full render), and show again.
+5. Repeat until the user approves the preview.
+
+### Blender Phase 6: Final Render
+
+Only proceed here after the user has approved the preview.
+
+1. **Run the final Cycles render** (without `--preview`):
+   ```bash
+   bash .claude/skills/research-figure/scripts/render_blender.sh <script.py>
+   ```
+   Note: this will take significantly longer than the preview. This is expected.
+
+2. **View the result**: Use the Read tool to view the final rendered image.
+
+3. **Show the final image** to the user.
+
+4. If the user wants further adjustments, go back to Phase 5 (preview iteration) rather than re-running the slow Cycles render for each tweak.
 
 ---
 

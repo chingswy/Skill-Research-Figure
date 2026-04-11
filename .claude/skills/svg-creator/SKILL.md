@@ -2,6 +2,7 @@
 name: svg-creator
 description: >
   Create hand-drawn style SVG flowcharts and diagrams from user descriptions.
+  Supports aspect ratio specification (16:9, 4:3, 1:1, A4, or custom W:H ratios).
   Use this skill whenever the user asks to create a flowchart, diagram, architecture diagram,
   process chart, mind map, or any visual representation of a workflow/system using SVG.
   Also trigger when the user says things like "画个图", "画个流程图", "帮我可视化一下",
@@ -17,13 +18,55 @@ You turn spoken/written descriptions of processes, systems, or workflows into be
 hand-drawn style SVG flowcharts. The output should look like someone sketched it on a
 whiteboard with colored markers — not a rigid corporate diagram.
 
+## Aspect Ratio
+
+Every SVG must have a defined aspect ratio. The user can specify it explicitly, or it
+defaults to `16:9` (presentation-friendly). The aspect ratio determines the `viewBox`
+and `width`/`height` attributes of the `<svg>` element.
+
+### Presets
+
+| Name | Ratio | Typical viewBox | Best for |
+|------|-------|-----------------|----------|
+| `16:9` | 16:9 | `0 0 1600 900` | Slides, presentations, widescreen displays |
+| `4:3` | 4:3 | `0 0 1200 900` | Traditional slides, documentation |
+| `1:1` | 1:1 | `0 0 1000 1000` | Social media, square thumbnails |
+| `A4` | ~1:1.414 | `0 0 1000 1414` | Printable documents, vertical posters |
+| `A4-landscape` | ~1.414:1 | `0 0 1414 1000` | Printable landscape documents |
+
+### Custom ratios
+
+The user can specify any ratio as `W:H` (e.g., `3:2`, `21:9`). Calculate the viewBox by
+scaling so the longer dimension is ~1400-1600px and the shorter dimension follows the ratio.
+
+### How aspect ratio affects layout
+
+- **Wide formats (16:9, 21:9)**: Favor left-to-right flows. More horizontal space means
+  you can place 4-6 elements in a row comfortably. Vertical stacking wastes space.
+- **Tall formats (A4, 9:16)**: Favor top-to-bottom flows. Use the full vertical space;
+  limit horizontal elements to 2-3 per row.
+- **Square (1:1)**: Balanced — works for both radial layouts and 2×2/3×3 grids. Good for
+  concept maps with no strong directional flow.
+- **4:3**: A good middle ground. Works for both orientations but slightly favors horizontal.
+
+When planning layout in Step 2, always check the aspect ratio first and choose a layout
+direction that uses the available space naturally. Don't force a left-to-right flow into
+a tall canvas or a top-to-bottom flow into a widescreen canvas.
+
+### Default behavior
+
+If the user doesn't specify a ratio, use `16:9` — it works well for most diagrams and
+is immediately usable in presentations. If the content clearly needs a different ratio
+(e.g., a very tall hierarchy), suggest changing it but don't override silently.
+
 ## Overall Workflow
 
 1. **Understand & decompose** — Parse the user's description into discrete modules/steps/actors
-2. **Plan layout** — Decide the visual structure (top-down flow, left-right, grouped sections)
-3. **Generate SVG** — Write clean SVG with hand-drawn styling
-4. **Verify arrows** — Self-check that every connection between nodes has a visible arrow
-5. **Open & iterate** — Open the file for the user, refine based on feedback
+2. **Determine aspect ratio** — Use the user's specified ratio, or default to 16:9
+3. **Plan layout** — Decide the visual structure, adapting to the aspect ratio
+4. **Generate SVG** — Write clean SVG with hand-drawn styling and correct viewBox
+5. **Verify arrows** — Self-check that every connection between nodes has a visible arrow
+6. **Output & iterate** — Provide file paths to the user, refine based on feedback
 
 ## Step 1: Understand & Decompose
 
@@ -233,9 +276,32 @@ If any connection is missing, add it before saving.
 
 ## Step 5: Output & Iterate
 
-1. Write the SVG to a file (suggest `~/handdrawn-flowchart.svg` or a descriptive name)
-2. Open it with `open <path>` so the user sees it in their browser immediately
-3. Be ready for feedback — common asks include:
+1. **Check for existing file before writing**: Before saving, check if the target file already
+   exists. If it does, append a version suffix to avoid overwriting:
+   - First file: `flowchart.svg`
+   - If `flowchart.svg` exists: save as `flowchart-v1.svg`
+   - If `flowchart-v1.svg` also exists: save as `flowchart-v2.svg`
+   - Keep incrementing until an unused filename is found
+   - Use `ls` or `test -f` to check existence before writing
+2. Write the SVG to the determined file path
+3. **Convert SVG to PNG and visually self-check**: Do NOT open the file for the user yet.
+   Instead, convert and inspect the result first:
+   ```bash
+   rsvg-convert input.svg -o output.png
+   ```
+   Then use the Read tool to view the generated PNG image. Carefully inspect for:
+   - **Layout issues**: Are elements overlapping? Is any text clipped or overflowing its
+     container? Are there large empty gaps or cramped areas?
+   - **Arrow problems**: Are all arrows visible? Do any arrows point in the wrong direction,
+     cross through shapes, or appear disconnected/broken?
+   - **Text readability**: Is text legible and not overlapping other elements?
+   - **Overall balance**: Does the diagram look well-proportioned within the canvas?
+
+   If ANY issues are found, go back and fix the SVG, re-convert, and re-inspect. Repeat
+   until the diagram passes visual inspection.
+4. Once the diagram passes inspection, inform the user that the SVG and PNG files are ready,
+   and provide the file paths. Do NOT use `open` — the user may be on a remote server.
+5. Be ready for feedback — common asks include:
    - "这个框太小了" → Increase dimensions and reposition
    - "箭头断了" → Remove any filter from the arrow, increase stroke-width
    - "字体不够手写" → Verify Google Fonts import, check exact font-family string
@@ -261,7 +327,8 @@ If any connection is missing, add it before saving.
 ## Template: Minimal Starter
 
 ```xml
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+<!-- Default 16:9 ratio. Adjust viewBox for other ratios (see Aspect Ratio section) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&amp;display=swap');

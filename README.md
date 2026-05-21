@@ -66,13 +66,13 @@ Phase 1: 理解方法 → Phase 2: 确认结构(1-2轮) → Phase 3: 生成TikZ 
 在 Claude Code 中直接描述你的需求即可。以下是一些触发示例：
 
 ```
-> 帮我画一个方法流程图，我的方法是...
+> /research-figure 帮我画一个方法流程图，我的方法是...
 
-> I need a figure for my paper. The pipeline is...
+> /research-figure I need a figure for my paper. The pipeline is...
 
-> Draw my method: we take multi-view images as input, encode features with ResNet...
+> /research-figure Draw my method: we take multi-view images as input, encode features with ResNet...
 
-> 画图：输入文本 → CLIP编码 → 扩散模型去噪 → VAE解码 → 输出图像
+> /research-figure 画图：输入文本 → CLIP编码 → 扩散模型去噪 → VAE解码 → 输出图像
 ```
 
 Skill 会自动激活，引导你完成整个流程。
@@ -119,7 +119,7 @@ examples/                             # 使用案例
 
 **用户输入：**
 
-> 我的方法是一个基于 NeRF 的新视角合成方法。输入是多视角图像，先用 ResNet-34 编码特征，
+> /research-figure 我的方法是一个基于 NeRF 的新视角合成方法。输入是多视角图像，先用 ResNet-34 编码特征，
 > 然后送入我们提出的 Adaptive NeRF 模块（包含位置编码、MLP 预测密度和颜色），
 > 再通过体渲染得到新视角图像。训练时用 photometric loss 监督。
 > 我们的贡献是 Adaptive NeRF 模块和体渲染的结合。
@@ -138,7 +138,7 @@ examples/                             # 使用案例
 
 **用户输入：**
 
-> 我在做一个 text-to-image 的扩散模型。输入文本经过 CLIP text encoder 编码，
+> /research-figure 我在做一个 text-to-image 的扩散模型。输入文本经过 CLIP text encoder 编码，
 > 得到条件向量 c，送入我们设计的 Guided Denoiser（基于 U-Net + Cross Attention），
 > 同时输入高斯噪声。去噪后的 latent z0 经过 VAE Decoder 解码为图像。
 > 训练用 simple loss。我们的核心贡献是 Guided Denoiser。
@@ -157,7 +157,7 @@ examples/                             # 使用案例
 
 **用户输入：**
 
-> 我的方法是一个多模态大语言模型。有两个输入分支：图像分支用 ViT-L/14 编码后
+> /research-figure 我的方法是一个多模态大语言模型。有两个输入分支：图像分支用 ViT-L/14 编码后
 > 经过一个 MLP Visual Projector，文本分支用 BPE Tokenizer 处理。两个分支的输出
 > 通过 concat 合并，送入我们的 Adaptive LLM（基于 LLaMA-7B + LoRA 微调），
 > 输出回复文本。我们的贡献是 Visual Projector 和 Adaptive LLM。
@@ -234,13 +234,13 @@ examples/                             # 使用案例
 在 Claude Code 中描述你想要的图即可：
 
 ```
-> 画个图：Transformer 自注意力机制的工作原理
+> /svg-creator 画个图：Transformer 自注意力机制的工作原理
 
-> 帮我可视化一下深度学习各分支的关系
+> /svg-creator 帮我可视化一下深度学习各分支的关系
 
-> draw a diagram: Python learning path from beginner to expert
+> /svg-creator draw a diagram: Python learning path from beginner to expert
 
-> 画个流程图，1:1 比例，展示...
+> /svg-creator 画个流程图，1:1 比例，展示...
 ```
 
 ## 使用案例
@@ -249,7 +249,7 @@ examples/                             # 使用案例
 
 **用户输入：**
 
-> 帮我画一个 Transformer 自注意力机制的教学图。要分步讲解：输入嵌入 → Q/K/V 投影
+> /svg-creator 帮我画一个 Transformer 自注意力机制的教学图。要分步讲解：输入嵌入 → Q/K/V 投影
 > → 注意力分数计算 → 加权求和输出。比例 16:9，适合放 PPT。
 > 底部加一段"直觉理解"，举例说明为什么需要 self-attention。
 
@@ -268,7 +268,7 @@ examples/                             # 使用案例
 
 **用户输入：**
 
-> 画一个深度学习的知识图谱，1:1 比例。中心是"深度学习"，
+> /svg-creator 画一个深度学习的知识图谱，1:1 比例。中心是"深度学习"，
 > 分支包括 CNN、RNN、Transformer、GAN、扩散模型、强化学习。
 > 每个分支下面挂 2-3 个代表性应用或模型。
 > 用虚线标注分支之间的演化关系（如 RNN → Transformer）。
@@ -288,7 +288,7 @@ examples/                             # 使用案例
 
 **用户输入：**
 
-> 画一个 Python 学习路径图，A4 竖版。分四个阶段：入门（环境搭建、语法、控制流）→
+> /svg-creator 画一个 Python 学习路径图，A4 竖版。分四个阶段：入门（环境搭建、语法、控制流）→
 > 基础（函数、OOP、文件）→ 进阶（分三条路：Web开发、数据科学、自动化脚本）→
 > 精通（设计模式、并发、开源贡献）。每个阶段有一个里程碑标记。
 

@@ -1,8 +1,41 @@
-# Research Figure Skill
+# Research Figure Skills
 
-一个 Claude Code Skill，帮助研究者通过简短对话，从模糊的论文想法/摘要出发，快速生成流程图的草稿。
+一组 Claude Code Skills，让 Claude 帮你画出好看的图。支持两种输出格式：
 
-如果需要高质量的结果，那么还是需要手工使用专业软件对图片进行排版。
+- **LaTeX TikZ** — 学术论文级别的 method pipeline 图，编译为 PDF/PNG
+- **SVG 手绘风格** — 零依赖的手绘白板图，适合教学、文档、团队沟通
+
+只需用自然语言描述你想要的图，Claude 自动生成、编译、自检、迭代。
+
+## Gallery
+
+<p align="center">
+  <img src="examples/svg/example1_transformer_attention.png" width="80%" />
+</p>
+<p align="center"><em>SVG · Transformer 自注意力机制教学图（16:9）</em></p>
+
+<p align="center">
+  <img src="examples/svg/example3_python_learning_path.png" width="30%" />
+</p>
+<p align="center"><em>SVG · 深度学习知识图谱（1:1）&nbsp;&nbsp;|&nbsp;&nbsp;Python 学习路径（A4 竖版）</em></p>
+
+
+<p align="center">
+  <img src="examples/example1_nerf_pipeline.png" width="80%" />
+</p>
+<p align="center"><em>TikZ · NeRF 3D 重建 Pipeline（学术论文风格）</em></p>
+
+
+<p align="center">
+  <img src="examples/example3_multimodal_llm.png" width="48%" />
+</p>
+<p align="center"><em>TikZ · Text-to-Image 扩散模型 &nbsp;|&nbsp; 多模态大语言模型</em></p>
+
+---
+
+# Skill 1: TikZ Research Figure
+
+生成学术论文级别的 method pipeline 图。适合投稿、正式报告。
 
 ## 功能特性
 
@@ -169,6 +202,117 @@ examples/                             # 使用案例
 4. **无衬线字体**：全程使用 `\sffamily`，现代简洁
 5. **突出贡献**：论文的 novel contribution 模块用加粗边框 + 不同背景色视觉区分
 6. **2D 可视化元素**：用样式化的图形元素替代纯文字（特征图、网络模块符号等）
+
+---
+
+# Skill 2: SVG Hand-Drawn Flowchart
+
+用手绘风格的 SVG 生成流程图、知识图谱、学习路径等各类图表。与 TikZ 方案互补——**零依赖、即时渲染、GitHub 直接预览**。
+
+## 为什么选 SVG？
+
+| | TikZ（research-figure） | SVG（svg-creator） |
+|---|---|---|
+| **依赖** | 需安装 TeX Live / MacTeX | 零依赖，浏览器直接渲染 |
+| **渲染速度** | 需要 pdflatex 编译 | 即时，无编译步骤 |
+| **风格** | 学术正式，适合论文投稿 | 手绘白板风，适合教学/沟通 |
+| **预览** | 需转为 PNG 后查看 | GitHub / 浏览器直接内嵌 |
+| **版本控制** | .tex 文本可 diff | .svg 文本可 diff |
+| **适合场景** | 论文 method figure | 课件、文档、团队分享、科普 |
+
+## 功能特性
+
+- **手绘美学**：`feTurbulence` + `feDisplacementMap` 实现草图效果，不是冰冷的商业图
+- **斜线填充**：模拟手绘交叉阴影，增强手工质感
+- **手写字体**：中文用马善政毛笔体，英文用 Comic Sans MS
+- **多种比例**：16:9（演示）、4:3（文档）、1:1（社交媒体）、A4（打印）
+- **自动验证**：生成后 rsvg-convert 转 PNG，AI 自检布局和箭头
+- **色彩分区**：每个模块独立配色，层次分明
+
+## 使用方式
+
+在 Claude Code 中描述你想要的图即可：
+
+```
+> 画个图：Transformer 自注意力机制的工作原理
+
+> 帮我可视化一下深度学习各分支的关系
+
+> draw a diagram: Python learning path from beginner to expert
+
+> 画个流程图，1:1 比例，展示...
+```
+
+## 使用案例
+
+### 案例 1：Transformer 自注意力机制详解
+
+**用户输入：**
+
+> 帮我画一个 Transformer 自注意力机制的教学图。要分步讲解：输入嵌入 → Q/K/V 投影
+> → 注意力分数计算 → 加权求和输出。比例 16:9，适合放 PPT。
+> 底部加一段"直觉理解"，举例说明为什么需要 self-attention。
+
+**生成结果：**
+
+<p align="center">
+  <img src="examples/svg/example1_transformer_attention.png" width="90%" />
+</p>
+
+- **比例**：16:9（演示/PPT 友好）
+- **布局**：左到右四阶段流水线
+- **配色**：蓝→橙→绿→紫，每阶段独立色系
+- **亮点**：底部"直觉理解"用虚线框包裹，举了指代消解和多义词两个真实例子；核心公式单独高亮
+
+### 案例 2：深度学习知识图谱
+
+**用户输入：**
+
+> 画一个深度学习的知识图谱，1:1 比例。中心是"深度学习"，
+> 分支包括 CNN、RNN、Transformer、GAN、扩散模型、强化学习。
+> 每个分支下面挂 2-3 个代表性应用或模型。
+> 用虚线标注分支之间的演化关系（如 RNN → Transformer）。
+
+**生成结果：**
+
+<p align="center">
+  <img src="examples/svg/example2_deep_learning_knowledge_map.png" width="70%" />
+</p>
+
+- **比例**：1:1（正方形，适合社交媒体/笔记）
+- **布局**：放射状，中心向六个方向发散
+- **配色**：六色分区（蓝/橙/绿/紫/红/青），底部数学基础用灰色
+- **亮点**：虚线标注演化关系（RNN → Transformer）；底部"基础数学"用虚线框表示支撑关系；左下角图例
+
+### 案例 3：Python 学习路径
+
+**用户输入：**
+
+> 画一个 Python 学习路径图，A4 竖版。分四个阶段：入门（环境搭建、语法、控制流）→
+> 基础（函数、OOP、文件）→ 进阶（分三条路：Web开发、数据科学、自动化脚本）→
+> 精通（设计模式、并发、开源贡献）。每个阶段有一个里程碑标记。
+
+**生成结果：**
+
+<p align="center">
+  <img src="examples/svg/example3_python_learning_path.png" width="55%" />
+</p>
+
+- **比例**：A4 竖版（1000×1414，适合打印/手机阅读）
+- **布局**：自上而下四层阶梯，第三层带三向分支
+- **配色**：蓝→橙→绿→紫，层层递进
+- **亮点**：左侧竖线进度指示器；第三阶段"选择方向"三条路分叉；右侧小贴士气泡增添趣味；每层底部里程碑标记
+
+## 设计原则
+
+1. **手绘而非机械**：通过 SVG filter 让直线有微小抖动，看起来像白板手画
+2. **箭头永不加 filter**：这是 #1 踩坑点——`feDisplacementMap` 会让细线消失
+3. **斜线填充 + 半透明底色**：兼顾视觉质感和文字可读性
+4. **字体一致**：中文统一马善政，英文统一 Comic Sans，不混用其他手写体
+5. **色彩克制**：每种颜色对应一个语义分区，避免彩虹噪音
+6. **比例适配内容**：横向流程用 16:9，层级结构用 A4，概念关系用 1:1
+
+---
 
 ## 声明与致谢
 

@@ -1,0 +1,278 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1414" width="1000" height="1414">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&amp;family=ZCOOL+KuaiLe&amp;display=swap');
+      text {
+        font-family: 'Ma Shan Zheng', 'ZCOOL KuaiLe', 'STKaiti', 'KaiTi', cursive;
+      }
+      .label-en {
+        font-family: 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive, sans-serif;
+      }
+    </style>
+    <!-- Sketchy filter for shapes only -->
+    <filter id="sketchy" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="4" seed="5" result="turbulence"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2.5"
+                         xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- Hatching patterns -->
+    <pattern id="hatch-blue" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#a0c4f0" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-orange" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#f0d080" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-green" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#5a9e6f" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-purple" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#b4a0e8" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-red" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#f0a0a0" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-teal" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#70c0c0" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <!-- Arrow markers -->
+    <marker id="arrow-blue" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#3b82d0"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#d4920a"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#2d8a4e"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#0d9488"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="1414" fill="#fefefe"/>
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="500" y="50" text-anchor="middle" font-size="32" fill="#1e293b" font-weight="bold">
+    Python 学习路径
+  </text>
+  <text x="500" y="80" text-anchor="middle" font-size="15" fill="#64748b" class="label-en">
+    Python Learning Roadmap — From Zero to Hero
+  </text>
+
+  <!-- ==================== LEVEL INDICATOR (left side) ==================== -->
+  <line x1="60" y1="120" x2="60" y2="1350" stroke="#e2e8f0" stroke-width="3"/>
+  <text x="55" y="180" text-anchor="end" font-size="13" fill="#94a3b8" transform="rotate(-90, 55, 180)">入门</text>
+  <text x="55" y="520" text-anchor="end" font-size="13" fill="#94a3b8" transform="rotate(-90, 55, 520)">基础</text>
+  <text x="55" y="860" text-anchor="end" font-size="13" fill="#94a3b8" transform="rotate(-90, 55, 860)">进阶</text>
+  <text x="55" y="1200" text-anchor="end" font-size="13" fill="#94a3b8" transform="rotate(-90, 55, 1200)">精通</text>
+
+  <!-- Level dots -->
+  <circle cx="60" cy="155" r="8" fill="#3b82d0"/>
+  <circle cx="60" cy="450" r="8" fill="#d4920a"/>
+  <circle cx="60" cy="780" r="8" fill="#2d8a4e"/>
+  <circle cx="60" cy="1100" r="8" fill="#7c3aed"/>
+
+  <!-- ==================== LEVEL 1: GETTING STARTED ==================== -->
+  <rect x="100" y="120" width="850" height="290" rx="20" fill="url(#hatch-blue)" stroke="#3b82d0" stroke-width="3" filter="url(#sketchy)"/>
+  <rect x="100" y="120" width="850" height="290" rx="20" fill="#dbeafe" opacity="0.2"/>
+  <text x="500" y="158" text-anchor="middle" font-size="24" fill="#1e40af" font-weight="bold">
+    第一阶段：入门起步
+  </text>
+  <text x="500" y="183" text-anchor="middle" font-size="13" fill="#3b82d0" class="label-en">
+    Week 1-2 · Getting Started
+  </text>
+
+  <!-- Sub-boxes -->
+  <rect x="135" y="200" width="230" height="100" rx="10" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="250" y="230" text-anchor="middle" font-size="16" fill="#1d4ed8" font-weight="bold">环境搭建</text>
+  <text x="250" y="255" text-anchor="middle" font-size="12" fill="#3b82d0" class="label-en">Install Python</text>
+  <text x="250" y="278" text-anchor="middle" font-size="12" fill="#475569">安装 / IDE / 终端</text>
+  <text x="250" y="295" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">VSCode + pip</text>
+
+  <rect x="390" y="200" width="230" height="100" rx="10" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="505" y="230" text-anchor="middle" font-size="16" fill="#1d4ed8" font-weight="bold">基本语法</text>
+  <text x="505" y="255" text-anchor="middle" font-size="12" fill="#3b82d0" class="label-en">Syntax Basics</text>
+  <text x="505" y="278" text-anchor="middle" font-size="12" fill="#475569">变量 / 类型 / 运算符</text>
+  <text x="505" y="295" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">int, str, list, dict</text>
+
+  <rect x="645" y="200" width="270" height="100" rx="10" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="780" y="230" text-anchor="middle" font-size="16" fill="#1d4ed8" font-weight="bold">控制流程</text>
+  <text x="780" y="255" text-anchor="middle" font-size="12" fill="#3b82d0" class="label-en">Control Flow</text>
+  <text x="780" y="278" text-anchor="middle" font-size="12" fill="#475569">if / for / while</text>
+  <text x="780" y="295" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">loops + conditionals</text>
+
+  <!-- Arrows between sub-boxes -->
+  <line x1="367" y1="250" x2="388" y2="250" stroke="#3b82d0" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <line x1="622" y1="250" x2="643" y2="250" stroke="#3b82d0" stroke-width="3" marker-end="url(#arrow-blue)"/>
+
+  <!-- Milestone -->
+  <rect x="300" y="320" width="400" height="42" rx="20" fill="#dbeafe" stroke="#3b82d0" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="500" y="347" text-anchor="middle" font-size="14" fill="#1e40af">
+    🎯 里程碑：写出第一个猜数字小游戏
+  </text>
+
+  <!-- ==================== ARROW: Level 1 → Level 2 ==================== -->
+  <line x1="500" y1="412" x2="500" y2="440" stroke="#d4920a" stroke-width="3.5" marker-end="url(#arrow-orange)"/>
+
+  <!-- ==================== LEVEL 2: FUNDAMENTALS ==================== -->
+  <rect x="100" y="450" width="850" height="290" rx="20" fill="url(#hatch-orange)" stroke="#d4920a" stroke-width="3" filter="url(#sketchy)"/>
+  <rect x="100" y="450" width="850" height="290" rx="20" fill="#fef3c7" opacity="0.2"/>
+  <text x="500" y="488" text-anchor="middle" font-size="24" fill="#92400e" font-weight="bold">
+    第二阶段：夯实基础
+  </text>
+  <text x="500" y="513" text-anchor="middle" font-size="13" fill="#d4920a" class="label-en">
+    Week 3-6 · Core Fundamentals
+  </text>
+
+  <!-- Sub-boxes -->
+  <rect x="135" y="530" width="200" height="100" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="235" y="560" text-anchor="middle" font-size="16" fill="#78350f" font-weight="bold">函数</text>
+  <text x="235" y="583" text-anchor="middle" font-size="12" fill="#a16207" class="label-en">Functions</text>
+  <text x="235" y="606" text-anchor="middle" font-size="12" fill="#475569">定义 / 参数 / 返回</text>
+  <text x="235" y="625" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">*args, **kwargs</text>
+
+  <rect x="360" y="530" width="200" height="100" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="460" y="560" text-anchor="middle" font-size="16" fill="#78350f" font-weight="bold">面向对象</text>
+  <text x="460" y="583" text-anchor="middle" font-size="12" fill="#a16207" class="label-en">OOP</text>
+  <text x="460" y="606" text-anchor="middle" font-size="12" fill="#475569">类 / 继承 / 多态</text>
+  <text x="460" y="625" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">class, self, super</text>
+
+  <rect x="585" y="530" width="200" height="100" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="685" y="560" text-anchor="middle" font-size="16" fill="#78350f" font-weight="bold">文件与异常</text>
+  <text x="685" y="583" text-anchor="middle" font-size="12" fill="#a16207" class="label-en">File I/O + Errors</text>
+  <text x="685" y="606" text-anchor="middle" font-size="12" fill="#475569">读写 / try-except</text>
+  <text x="685" y="625" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">with open(...)</text>
+
+  <!-- Arrows between sub-boxes -->
+  <line x1="337" y1="580" x2="358" y2="580" stroke="#d4920a" stroke-width="3" marker-end="url(#arrow-orange)"/>
+  <line x1="562" y1="580" x2="583" y2="580" stroke="#d4920a" stroke-width="3" marker-end="url(#arrow-orange)"/>
+
+  <!-- Side branch: modules -->
+  <rect x="800" y="545" width="130" height="70" rx="8" fill="#fff7ed" stroke="#f97316" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="865" y="575" text-anchor="middle" font-size="13" fill="#9a3412" font-weight="bold">模块化</text>
+  <text x="865" y="595" text-anchor="middle" font-size="11" fill="#c2410c" class="label-en">import / pip</text>
+  <line x1="787" y1="580" x2="798" y2="580" stroke="#f97316" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-orange)"/>
+
+  <!-- Milestone -->
+  <rect x="270" y="655" width="460" height="42" rx="20" fill="#fef3c7" stroke="#d4920a" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="500" y="682" text-anchor="middle" font-size="14" fill="#92400e">
+    🎯 里程碑：用 OOP 写一个图书管理系统
+  </text>
+
+  <!-- ==================== ARROW: Level 2 → Level 3 ==================== -->
+  <line x1="500" y1="742" x2="500" y2="775" stroke="#2d8a4e" stroke-width="3.5" marker-end="url(#arrow-green)"/>
+
+  <!-- ==================== LEVEL 3: INTERMEDIATE ==================== -->
+  <rect x="100" y="785" width="850" height="290" rx="20" fill="url(#hatch-green)" stroke="#2d8a4e" stroke-width="3" filter="url(#sketchy)"/>
+  <rect x="100" y="785" width="850" height="290" rx="20" fill="#d1fae5" opacity="0.2"/>
+  <text x="500" y="823" text-anchor="middle" font-size="24" fill="#065f46" font-weight="bold">
+    第三阶段：专项进阶
+  </text>
+  <text x="500" y="848" text-anchor="middle" font-size="13" fill="#2d8a4e" class="label-en">
+    Week 7-12 · Specialization Track
+  </text>
+
+  <!-- Branching paths -->
+  <!-- Branch A: Web Dev -->
+  <rect x="135" y="870" width="220" height="110" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="245" y="900" text-anchor="middle" font-size="15" fill="#065f46" font-weight="bold">Web 开发</text>
+  <text x="245" y="923" text-anchor="middle" font-size="12" fill="#059669" class="label-en">Flask / Django</text>
+  <text x="245" y="947" text-anchor="middle" font-size="12" fill="#475569">REST API</text>
+  <text x="245" y="967" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">HTML + Database</text>
+
+  <!-- Branch B: Data Science -->
+  <rect x="385" y="870" width="230" height="110" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="500" y="900" text-anchor="middle" font-size="15" fill="#065f46" font-weight="bold">数据科学</text>
+  <text x="500" y="923" text-anchor="middle" font-size="12" fill="#059669" class="label-en">NumPy / Pandas</text>
+  <text x="500" y="947" text-anchor="middle" font-size="12" fill="#475569">数据清洗 / 可视化</text>
+  <text x="500" y="967" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">Matplotlib + Seaborn</text>
+
+  <!-- Branch C: Automation -->
+  <rect x="645" y="870" width="270" height="110" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="780" y="900" text-anchor="middle" font-size="15" fill="#065f46" font-weight="bold">自动化 / 脚本</text>
+  <text x="780" y="923" text-anchor="middle" font-size="12" fill="#059669" class="label-en">Automation Scripts</text>
+  <text x="780" y="947" text-anchor="middle" font-size="12" fill="#475569">爬虫 / 办公自动化</text>
+  <text x="780" y="967" text-anchor="middle" font-size="11" fill="#64748b" class="label-en">requests + openpyxl</text>
+
+  <!-- Branch arrows from top -->
+  <path d="M 350 848 L 245 868" fill="none" stroke="#2d8a4e" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <line x1="500" y1="848" x2="500" y2="868" stroke="#2d8a4e" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+  <path d="M 650 848 L 755 868" fill="none" stroke="#2d8a4e" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+
+  <!-- "Choose your path" label -->
+  <text x="500" y="862" text-anchor="middle" font-size="12" fill="#2d8a4e">← 选择方向 →</text>
+
+  <!-- Milestone -->
+  <rect x="250" y="1000" width="500" height="42" rx="20" fill="#d1fae5" stroke="#2d8a4e" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="500" y="1027" text-anchor="middle" font-size="14" fill="#065f46">
+    🎯 里程碑：完成一个独立项目并部署到 GitHub
+  </text>
+
+  <!-- ==================== ARROW: Level 3 → Level 4 ==================== -->
+  <line x1="500" y1="1077" x2="500" y2="1108" stroke="#7c3aed" stroke-width="3.5" marker-end="url(#arrow-purple)"/>
+
+  <!-- ==================== LEVEL 4: ADVANCED ==================== -->
+  <rect x="100" y="1118" width="850" height="260" rx="20" fill="url(#hatch-purple)" stroke="#7c3aed" stroke-width="3" filter="url(#sketchy)"/>
+  <rect x="100" y="1118" width="850" height="260" rx="20" fill="#ede9fe" opacity="0.2"/>
+  <text x="500" y="1156" text-anchor="middle" font-size="24" fill="#5b21b6" font-weight="bold">
+    第四阶段：走向精通
+  </text>
+  <text x="500" y="1181" text-anchor="middle" font-size="13" fill="#7c3aed" class="label-en">
+    Month 4+ · Mastery
+  </text>
+
+  <!-- Sub-boxes -->
+  <rect x="135" y="1200" width="220" height="80" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="245" y="1230" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">设计模式</text>
+  <text x="245" y="1255" text-anchor="middle" font-size="12" fill="#7c3aed" class="label-en">Design Patterns</text>
+  <text x="245" y="1275" text-anchor="middle" font-size="11" fill="#6d28d9">SOLID / 工厂 / 观察者</text>
+
+  <rect x="385" y="1200" width="230" height="80" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="500" y="1230" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">并发与性能</text>
+  <text x="500" y="1255" text-anchor="middle" font-size="12" fill="#7c3aed" class="label-en">Concurrency + Perf</text>
+  <text x="500" y="1275" text-anchor="middle" font-size="11" fill="#6d28d9">asyncio / 多进程</text>
+
+  <rect x="645" y="1200" width="270" height="80" rx="10" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="780" y="1230" text-anchor="middle" font-size="14" fill="#5b21b6" font-weight="bold">开源贡献</text>
+  <text x="780" y="1255" text-anchor="middle" font-size="12" fill="#7c3aed" class="label-en">Open Source</text>
+  <text x="780" y="1275" text-anchor="middle" font-size="11" fill="#6d28d9">PR / Code Review / CI</text>
+
+  <!-- Final milestone -->
+  <rect x="250" y="1305" width="500" height="45" rx="22" fill="#ede9fe" stroke="#7c3aed" stroke-width="3" filter="url(#sketchy)"/>
+  <text x="500" y="1333" text-anchor="middle" font-size="15" fill="#5b21b6" font-weight="bold">
+    🏆 终极目标：成为独立开发者 / 技术专家
+  </text>
+
+  <!-- ==================== RIGHT SIDE: TIPS ==================== -->
+  <!-- Tip bubble 1 -->
+  <rect x="810" y="150" width="140" height="55" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="880" y="173" text-anchor="middle" font-size="11" fill="#92400e">💡 每天 30 分钟</text>
+  <text x="880" y="193" text-anchor="middle" font-size="11" fill="#92400e">比周末突击好</text>
+
+  <!-- Tip bubble 2 -->
+  <rect x="810" y="480" width="140" height="55" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="880" y="503" text-anchor="middle" font-size="11" fill="#92400e">💡 多写项目</text>
+  <text x="880" y="523" text-anchor="middle" font-size="11" fill="#92400e">少看不练</text>
+
+  <!-- Tip bubble 3 -->
+  <rect x="810" y="810" width="140" height="55" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="880" y="833" text-anchor="middle" font-size="11" fill="#92400e">💡 选一个方向</text>
+  <text x="880" y="853" text-anchor="middle" font-size="11" fill="#92400e">深入比广泛好</text>
+</svg>

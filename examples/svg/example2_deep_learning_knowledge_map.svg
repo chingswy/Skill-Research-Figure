@@ -1,0 +1,250 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&amp;family=ZCOOL+KuaiLe&amp;display=swap');
+      text {
+        font-family: 'Ma Shan Zheng', 'ZCOOL KuaiLe', 'STKaiti', 'KaiTi', cursive;
+      }
+      .label-en {
+        font-family: 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive, sans-serif;
+      }
+    </style>
+    <!-- Sketchy filter for shapes only -->
+    <filter id="sketchy" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="4" seed="7" result="turbulence"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2.5"
+                         xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- Hatching patterns -->
+    <pattern id="hatch-blue" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#a0c4f0" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-orange" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#f0d080" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-green" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#5a9e6f" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-purple" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#b4a0e8" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-red" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#f0a0a0" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-teal" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#70c0c0" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <!-- Arrow markers -->
+    <marker id="arrow-blue" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#3b82d0"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#d4920a"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#2d8a4e"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#0d9488"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="1000" fill="#fefefe"/>
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="500" y="42" text-anchor="middle" font-size="30" fill="#1e293b" font-weight="bold">
+    深度学习知识图谱
+  </text>
+  <text x="500" y="68" text-anchor="middle" font-size="14" fill="#64748b" class="label-en">
+    Deep Learning Knowledge Map
+  </text>
+
+  <!-- ==================== CENTER: DEEP LEARNING ==================== -->
+  <ellipse cx="500" cy="340" rx="105" ry="50" fill="url(#hatch-blue)" stroke="#3b82d0" stroke-width="4" filter="url(#sketchy)"/>
+  <ellipse cx="500" cy="340" rx="105" ry="50" fill="#dbeafe" opacity="0.3"/>
+  <text x="500" y="335" text-anchor="middle" font-size="20" fill="#1e40af" font-weight="bold">深度学习</text>
+  <text x="500" y="358" text-anchor="middle" font-size="13" fill="#3b82d0" class="label-en">Deep Learning</text>
+
+  <!-- ==================== BRANCH 1: CNN (Top-Left) ==================== -->
+  <!-- Arrow: Center → CNN -->
+  <line x1="420" y1="305" x2="270" y2="195" stroke="#d4920a" stroke-width="3" marker-end="url(#arrow-orange)"/>
+
+  <rect x="120" y="110" width="220" height="80" rx="14" fill="url(#hatch-orange)" stroke="#d4920a" stroke-width="3" filter="url(#sketchy)"/>
+  <rect x="120" y="110" width="220" height="80" rx="14" fill="#fef3c7" opacity="0.25"/>
+  <text x="230" y="145" text-anchor="middle" font-size="18" fill="#92400e" font-weight="bold">卷积神经网络</text>
+  <text x="230" y="170" text-anchor="middle" font-size="13" fill="#d4920a" class="label-en">CNN</text>
+
+  <!-- CNN sub-nodes -->
+  <rect x="60" y="210" width="130" height="40" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="125" y="235" text-anchor="middle" font-size="12" fill="#78350f">图像分类</text>
+
+  <rect x="200" y="210" width="130" height="40" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="265" y="235" text-anchor="middle" font-size="12" fill="#78350f">目标检测</text>
+
+  <rect x="120" y="260" width="150" height="40" rx="6" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="195" y="285" text-anchor="middle" font-size="12" fill="#78350f">语义分割</text>
+
+  <!-- Arrows to sub-nodes -->
+  <line x1="195" y1="190" x2="145" y2="208" stroke="#ca8a04" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  <line x1="255" y1="190" x2="270" y2="208" stroke="#ca8a04" stroke-width="2" marker-end="url(#arrow-orange)"/>
+  <line x1="225" y1="190" x2="200" y2="258" stroke="#ca8a04" stroke-width="2" marker-end="url(#arrow-orange)"/>
+
+  <!-- ==================== BRANCH 2: RNN (Top-Right) ==================== -->
+  <!-- Arrow: Center → RNN -->
+  <line x1="580" y1="305" x2="720" y2="195" stroke="#2d8a4e" stroke-width="3" marker-end="url(#arrow-green)"/>
+
+  <rect x="650" y="110" width="220" height="80" rx="14" fill="url(#hatch-green)" stroke="#2d8a4e" stroke-width="3" filter="url(#sketchy)"/>
+  <rect x="650" y="110" width="220" height="80" rx="14" fill="#d1fae5" opacity="0.25"/>
+  <text x="760" y="145" text-anchor="middle" font-size="18" fill="#065f46" font-weight="bold">循环神经网络</text>
+  <text x="760" y="170" text-anchor="middle" font-size="13" fill="#2d8a4e" class="label-en">RNN / LSTM / GRU</text>
+
+  <!-- RNN sub-nodes -->
+  <rect x="650" y="210" width="120" height="40" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="710" y="235" text-anchor="middle" font-size="12" fill="#065f46">时序预测</text>
+
+  <rect x="785" y="210" width="120" height="40" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="845" y="235" text-anchor="middle" font-size="12" fill="#065f46">机器翻译</text>
+
+  <rect x="710" y="260" width="130" height="40" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="775" y="285" text-anchor="middle" font-size="12" fill="#065f46">语音识别</text>
+
+  <!-- Arrows to sub-nodes -->
+  <line x1="730" y1="190" x2="710" y2="208" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <line x1="790" y1="190" x2="835" y2="208" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <line x1="760" y1="190" x2="765" y2="258" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- ==================== BRANCH 3: Transformer (Right) ==================== -->
+  <!-- Arrow: Center → Transformer -->
+  <line x1="600" y1="350" x2="700" y2="400" stroke="#7c3aed" stroke-width="3" marker-end="url(#arrow-purple)"/>
+
+  <rect x="700" y="380" width="240" height="80" rx="14" fill="url(#hatch-purple)" stroke="#7c3aed" stroke-width="3.5" filter="url(#sketchy)"/>
+  <rect x="700" y="380" width="240" height="80" rx="14" fill="#ede9fe" opacity="0.25"/>
+  <text x="820" y="415" text-anchor="middle" font-size="18" fill="#5b21b6" font-weight="bold">Transformer</text>
+  <text x="820" y="440" text-anchor="middle" font-size="13" fill="#7c3aed" class="label-en">Attention Is All You Need</text>
+
+  <!-- Transformer sub-nodes -->
+  <rect x="720" y="480" width="100" height="40" rx="6" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="770" y="505" text-anchor="middle" font-size="12" fill="#5b21b6" class="label-en">BERT</text>
+
+  <rect x="835" y="480" width="100" height="40" rx="6" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="885" y="505" text-anchor="middle" font-size="12" fill="#5b21b6" class="label-en">GPT</text>
+
+  <rect x="770" y="535" width="110" height="40" rx="6" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="825" y="560" text-anchor="middle" font-size="12" fill="#5b21b6" class="label-en">ViT</text>
+
+  <!-- Arrows to sub-nodes -->
+  <line x1="790" y1="460" x2="775" y2="478" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <line x1="855" y1="460" x2="880" y2="478" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <line x1="820" y1="460" x2="822" y2="533" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrow-purple)"/>
+
+  <!-- ==================== BRANCH 4: GAN (Bottom-Right) ==================== -->
+  <!-- Arrow: Center → GAN -->
+  <line x1="555" y1="380" x2="640" y2="580" stroke="#dc2626" stroke-width="3" marker-end="url(#arrow-red)"/>
+
+  <rect x="560" y="590" width="210" height="80" rx="14" fill="url(#hatch-red)" stroke="#dc2626" stroke-width="3" filter="url(#sketchy)"/>
+  <rect x="560" y="590" width="210" height="80" rx="14" fill="#fee2e2" opacity="0.25"/>
+  <text x="665" y="625" text-anchor="middle" font-size="18" fill="#991b1b" font-weight="bold">生成对抗网络</text>
+  <text x="665" y="650" text-anchor="middle" font-size="13" fill="#dc2626" class="label-en">GAN</text>
+
+  <!-- GAN sub-nodes -->
+  <rect x="560" y="690" width="100" height="40" rx="6" fill="#fef2f2" stroke="#f87171" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="610" y="715" text-anchor="middle" font-size="12" fill="#991b1b">图像生成</text>
+
+  <rect x="675" y="690" width="110" height="40" rx="6" fill="#fef2f2" stroke="#f87171" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="730" y="715" text-anchor="middle" font-size="12" fill="#991b1b">风格迁移</text>
+
+  <!-- Arrows to sub-nodes -->
+  <line x1="635" y1="670" x2="615" y2="688" stroke="#f87171" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <line x1="690" y1="670" x2="720" y2="688" stroke="#f87171" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- ==================== BRANCH 5: Diffusion (Bottom-Left) ==================== -->
+  <!-- Arrow: Center → Diffusion -->
+  <line x1="445" y1="380" x2="320" y2="560" stroke="#0d9488" stroke-width="3" marker-end="url(#arrow-teal)"/>
+
+  <rect x="180" y="570" width="240" height="80" rx="14" fill="url(#hatch-teal)" stroke="#0d9488" stroke-width="3" filter="url(#sketchy)"/>
+  <rect x="180" y="570" width="240" height="80" rx="14" fill="#ccfbf1" opacity="0.25"/>
+  <text x="300" y="605" text-anchor="middle" font-size="18" fill="#134e4a" font-weight="bold">扩散模型</text>
+  <text x="300" y="630" text-anchor="middle" font-size="13" fill="#0d9488" class="label-en">Diffusion Models</text>
+
+  <!-- Diffusion sub-nodes -->
+  <rect x="140" y="670" width="100" height="40" rx="6" fill="#f0fdfa" stroke="#14b8a6" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="190" y="695" text-anchor="middle" font-size="12" fill="#134e4a" class="label-en">DDPM</text>
+
+  <rect x="255" y="670" width="130" height="40" rx="6" fill="#f0fdfa" stroke="#14b8a6" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="320" y="695" text-anchor="middle" font-size="12" fill="#134e4a" class="label-en">Stable Diffusion</text>
+
+  <rect x="195" y="725" width="110" height="40" rx="6" fill="#f0fdfa" stroke="#14b8a6" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="250" y="750" text-anchor="middle" font-size="12" fill="#134e4a" class="label-en">Sora</text>
+
+  <!-- Arrows to sub-nodes -->
+  <line x1="265" y1="650" x2="200" y2="668" stroke="#14b8a6" stroke-width="2" marker-end="url(#arrow-teal)"/>
+  <line x1="330" y1="650" x2="325" y2="668" stroke="#14b8a6" stroke-width="2" marker-end="url(#arrow-teal)"/>
+  <line x1="295" y1="650" x2="255" y2="723" stroke="#14b8a6" stroke-width="2" marker-end="url(#arrow-teal)"/>
+
+  <!-- ==================== BRANCH 6: Reinforcement Learning (Left) ==================== -->
+  <!-- Arrow: Center → RL -->
+  <line x1="400" y1="350" x2="260" y2="410" stroke="#666" stroke-width="3" marker-end="url(#arrow-gray)"/>
+
+  <rect x="80" y="390" width="230" height="80" rx="14" fill="#f1f5f9" stroke="#64748b" stroke-width="3" filter="url(#sketchy)"/>
+  <text x="195" y="425" text-anchor="middle" font-size="18" fill="#334155" font-weight="bold">强化学习</text>
+  <text x="195" y="450" text-anchor="middle" font-size="13" fill="#64748b" class="label-en">Reinforcement Learning</text>
+
+  <!-- RL sub-nodes -->
+  <rect x="60" y="490" width="100" height="40" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="110" y="515" text-anchor="middle" font-size="12" fill="#475569" class="label-en">DQN</text>
+
+  <rect x="175" y="490" width="100" height="40" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" filter="url(#sketchy)"/>
+  <text x="225" y="515" text-anchor="middle" font-size="12" fill="#475569" class="label-en">PPO</text>
+
+  <!-- Arrows to sub-nodes -->
+  <line x1="165" y1="470" x2="120" y2="488" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-gray)"/>
+  <line x1="225" y1="470" x2="230" y2="488" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-gray)"/>
+
+  <!-- ==================== FOUNDATION LAYER (Bottom) ==================== -->
+  <rect x="100" y="820" width="800" height="75" rx="16" fill="#f1f5f9" stroke="#475569" stroke-width="2.5" stroke-dasharray="12 8" filter="url(#sketchy)"/>
+  <text x="500" y="852" text-anchor="middle" font-size="18" fill="#334155" font-weight="bold">
+    基础数学
+  </text>
+  <text x="500" y="877" text-anchor="middle" font-size="14" fill="#64748b" class="label-en">
+    Linear Algebra · Probability · Calculus · Optimization
+  </text>
+
+  <!-- Dashed arrows from foundation to center -->
+  <line x1="500" y1="820" x2="500" y2="392" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="10 8" marker-end="url(#arrow-gray)"/>
+  <text x="520" y="770" font-size="12" fill="#94a3b8">数学基础支撑</text>
+
+  <!-- ==================== CROSS-CONNECTIONS (dashed) ==================== -->
+  <!-- RNN → Transformer (evolution) -->
+  <path d="M 760 190 L 760 300 L 730 360 L 720 378" fill="none"
+        stroke="#666" stroke-width="2" stroke-dasharray="8 6" marker-end="url(#arrow-gray)"/>
+  <text x="750" y="318" font-size="11" fill="#666" class="label-en">evolved into</text>
+
+  <!-- GAN ↔ Diffusion -->
+  <line x1="560" y1="630" x2="422" y2="610" stroke="#666" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="490" y="606" text-anchor="middle" font-size="11" fill="#666">生成范式对比</text>
+
+  <!-- ==================== LEGEND ==================== -->
+  <rect x="30" y="920" width="250" height="65" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="50" y="942" font-size="12" fill="#475569" font-weight="bold">图例</text>
+  <line x1="50" y1="960" x2="90" y2="960" stroke="#3b82d0" stroke-width="3"/>
+  <text x="100" y="965" font-size="11" fill="#475569">直接分支</text>
+  <line x1="160" y1="960" x2="200" y2="960" stroke="#666" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="210" y="965" font-size="11" fill="#475569">演化/关联</text>
+</svg>

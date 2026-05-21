@@ -1,0 +1,273 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&amp;family=ZCOOL+KuaiLe&amp;display=swap');
+      text {
+        font-family: 'Ma Shan Zheng', 'ZCOOL KuaiLe', 'STKaiti', 'KaiTi', cursive;
+      }
+      .label-en {
+        font-family: 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive, sans-serif;
+      }
+    </style>
+    <!-- Sketchy filter for shapes only -->
+    <filter id="sketchy" x="-3%" y="-3%" width="106%" height="106%">
+      <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="4" seed="3" result="turbulence"/>
+      <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="2.5"
+                         xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- Hatching patterns -->
+    <pattern id="hatch-blue" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#a0c4f0" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-orange" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#f0d080" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-green" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#5a9e6f" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <pattern id="hatch-purple" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#b4a0e8" stroke-width="1.5" opacity="0.5"/>
+    </pattern>
+    <!-- Arrow markers -->
+    <marker id="arrow-blue" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#3b82d0"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#d4920a"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#2d8a4e"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 12 12" refX="10" refY="6"
+            markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 2 3 L 10 6 L 2 9 Z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="900" fill="#fefefe"/>
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="800" y="50" text-anchor="middle" font-size="36" fill="#1e293b" font-weight="bold">
+    Transformer 自注意力机制详解
+  </text>
+  <text x="800" y="80" text-anchor="middle" font-size="16" fill="#64748b" class="label-en">
+    Self-Attention Mechanism — Step by Step
+  </text>
+
+  <!-- ==================== PHASE 1: INPUT ==================== -->
+  <rect x="40" y="110" width="280" height="340" rx="18" fill="url(#hatch-blue)" stroke="#3b82d0" stroke-width="3.5" filter="url(#sketchy)"/>
+  <rect x="40" y="110" width="280" height="340" rx="18" fill="#dbeafe" opacity="0.25"/>
+  <text x="180" y="148" text-anchor="middle" font-size="22" fill="#1e40af" font-weight="bold">
+    输入嵌入
+  </text>
+  <text x="180" y="175" text-anchor="middle" font-size="14" fill="#3b82d0" class="label-en">
+    Input Embeddings
+  </text>
+
+  <!-- Token boxes -->
+  <rect x="70" y="195" width="220" height="42" rx="6" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="180" y="222" text-anchor="middle" font-size="16" fill="#1d4ed8">x₁ = "我"</text>
+
+  <rect x="70" y="250" width="220" height="42" rx="6" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="180" y="277" text-anchor="middle" font-size="16" fill="#1d4ed8">x₂ = "喜欢"</text>
+
+  <rect x="70" y="305" width="220" height="42" rx="6" fill="#eff6ff" stroke="#60a5fa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="180" y="332" text-anchor="middle" font-size="16" fill="#1d4ed8">x₃ = "猫"</text>
+
+  <!-- Dimension label -->
+  <text x="180" y="380" text-anchor="middle" font-size="13" fill="#64748b">
+    每个词 → d_model 维向量
+  </text>
+  <text x="180" y="405" text-anchor="middle" font-size="13" fill="#64748b" class="label-en">
+    dim = 512
+  </text>
+
+  <!-- ==================== PHASE 2: Q, K, V PROJECTION ==================== -->
+  <!-- Arrow: Input → QKV -->
+  <line x1="322" y1="280" x2="375" y2="280" stroke="#3b82d0" stroke-width="3" marker-end="url(#arrow-blue)"/>
+
+  <rect x="385" y="110" width="340" height="340" rx="18" fill="url(#hatch-orange)" stroke="#d4920a" stroke-width="3.5" filter="url(#sketchy)"/>
+  <rect x="385" y="110" width="340" height="340" rx="18" fill="#fef3c7" opacity="0.25"/>
+  <text x="555" y="148" text-anchor="middle" font-size="22" fill="#92400e" font-weight="bold">
+    线性投影
+  </text>
+  <text x="555" y="175" text-anchor="middle" font-size="14" fill="#d4920a" class="label-en">
+    Linear Projections → Q, K, V
+  </text>
+
+  <!-- Q box -->
+  <rect x="410" y="195" width="130" height="90" rx="8" fill="#fde68a" stroke="#d4920a" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="475" y="230" text-anchor="middle" font-size="18" fill="#92400e" font-weight="bold" class="label-en">Q</text>
+  <text x="475" y="255" text-anchor="middle" font-size="13" fill="#b45309">查询向量</text>
+  <text x="475" y="275" text-anchor="middle" font-size="11" fill="#92400e" class="label-en">Query</text>
+
+  <!-- K box -->
+  <rect x="555" y="195" width="130" height="90" rx="8" fill="#fed7aa" stroke="#d4920a" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="620" y="230" text-anchor="middle" font-size="18" fill="#92400e" font-weight="bold" class="label-en">K</text>
+  <text x="620" y="255" text-anchor="middle" font-size="13" fill="#b45309">键向量</text>
+  <text x="620" y="275" text-anchor="middle" font-size="11" fill="#92400e" class="label-en">Key</text>
+
+  <!-- V box -->
+  <rect x="480" y="300" width="150" height="70" rx="8" fill="#ffedd5" stroke="#d4920a" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="555" y="330" text-anchor="middle" font-size="18" fill="#92400e" font-weight="bold" class="label-en">V</text>
+  <text x="555" y="355" text-anchor="middle" font-size="13" fill="#b45309">值向量</text>
+
+  <!-- Formula -->
+  <text x="555" y="415" text-anchor="middle" font-size="13" fill="#78350f" class="label-en">
+    Q = XW_Q,  K = XW_K,  V = XW_V
+  </text>
+
+  <!-- ==================== PHASE 3: ATTENTION SCORES ==================== -->
+  <!-- Arrow: QKV → Scores -->
+  <line x1="727" y1="280" x2="780" y2="280" stroke="#d4920a" stroke-width="3" marker-end="url(#arrow-orange)"/>
+
+  <rect x="790" y="110" width="340" height="340" rx="18" fill="url(#hatch-green)" stroke="#2d8a4e" stroke-width="3.5" filter="url(#sketchy)"/>
+  <rect x="790" y="110" width="340" height="340" rx="18" fill="#d1fae5" opacity="0.25"/>
+  <text x="960" y="148" text-anchor="middle" font-size="22" fill="#065f46" font-weight="bold">
+    注意力分数
+  </text>
+  <text x="960" y="175" text-anchor="middle" font-size="14" fill="#2d8a4e" class="label-en">
+    Attention Scores
+  </text>
+
+  <!-- Score matrix visualization -->
+  <rect x="830" y="195" width="260" height="130" rx="6" fill="#ecfdf5" stroke="#34d399" stroke-width="2" filter="url(#sketchy)"/>
+  <!-- Matrix content -->
+  <text x="960" y="220" text-anchor="middle" font-size="13" fill="#065f46" class="label-en">
+    Score = Q · K^T / √d_k
+  </text>
+  <text x="960" y="250" text-anchor="middle" font-size="14" fill="#065f46">
+    "我" 和 "猫" 的相关度 → 高分
+  </text>
+  <text x="960" y="275" text-anchor="middle" font-size="14" fill="#065f46">
+    "我" 和 "喜欢" 的相关度 → 中分
+  </text>
+  <text x="960" y="300" text-anchor="middle" font-size="14" fill="#065f46">
+    "喜欢" 和 "猫" 的相关度 → 高分
+  </text>
+
+  <!-- Softmax -->
+  <rect x="860" y="340" width="200" height="45" rx="8" fill="#a7f3d0" stroke="#2d8a4e" stroke-width="2.5" filter="url(#sketchy)"/>
+  <text x="960" y="368" text-anchor="middle" font-size="15" fill="#065f46" class="label-en">
+    Softmax → 概率分布
+  </text>
+
+  <!-- Interpretation -->
+  <text x="960" y="420" text-anchor="middle" font-size="13" fill="#047857">
+    每个词"看向"其他词的权重
+  </text>
+
+  <!-- ==================== PHASE 4: OUTPUT ==================== -->
+  <!-- Arrow: Scores → Output -->
+  <line x1="1132" y1="280" x2="1185" y2="280" stroke="#2d8a4e" stroke-width="3" marker-end="url(#arrow-green)"/>
+
+  <rect x="1195" y="110" width="360" height="340" rx="18" fill="url(#hatch-purple)" stroke="#7c3aed" stroke-width="3.5" filter="url(#sketchy)"/>
+  <rect x="1195" y="110" width="360" height="340" rx="18" fill="#ede9fe" opacity="0.25"/>
+  <text x="1375" y="148" text-anchor="middle" font-size="22" fill="#5b21b6" font-weight="bold">
+    加权求和输出
+  </text>
+  <text x="1375" y="175" text-anchor="middle" font-size="14" fill="#7c3aed" class="label-en">
+    Weighted Sum Output
+  </text>
+
+  <!-- Output explanation -->
+  <rect x="1225" y="195" width="300" height="85" rx="8" fill="#f5f3ff" stroke="#a78bfa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="1375" y="222" text-anchor="middle" font-size="14" fill="#5b21b6" class="label-en">
+    Output = Softmax(QK^T/√d_k) · V
+  </text>
+  <text x="1375" y="250" text-anchor="middle" font-size="14" fill="#5b21b6">
+    注意力权重 × 值向量
+  </text>
+  <text x="1375" y="270" text-anchor="middle" font-size="12" fill="#7c3aed">
+    = 上下文感知的新表示
+  </text>
+
+  <!-- Result tokens -->
+  <rect x="1240" y="300" width="270" height="42" rx="6" fill="#ede9fe" stroke="#a78bfa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="1375" y="327" text-anchor="middle" font-size="14" fill="#5b21b6">
+    z₁ = 融合了上下文的 "我"
+  </text>
+
+  <rect x="1240" y="355" width="270" height="42" rx="6" fill="#ede9fe" stroke="#a78bfa" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="1375" y="382" text-anchor="middle" font-size="14" fill="#5b21b6">
+    z₂ = 知道"谁喜欢什么"
+  </text>
+
+  <!-- Key insight -->
+  <text x="1375" y="430" text-anchor="middle" font-size="13" fill="#6d28d9">
+    每个词都"看过"了全局信息！
+  </text>
+
+  <!-- ==================== BOTTOM: INTUITION SECTION ==================== -->
+  <rect x="40" y="490" width="1520" height="180" rx="20" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="12 8" filter="url(#sketchy)"/>
+  <text x="800" y="528" text-anchor="middle" font-size="22" fill="#334155" font-weight="bold">
+    直觉理解：为什么需要自注意力？
+  </text>
+
+  <!-- Left example -->
+  <rect x="80" y="550" width="460" height="100" rx="10" fill="#fef3c7" stroke="#d4920a" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="310" y="580" text-anchor="middle" font-size="16" fill="#92400e">
+    "这只猫很可爱，它喜欢睡觉"
+  </text>
+  <text x="310" y="610" text-anchor="middle" font-size="14" fill="#b45309">
+    ↑ "它" 指代谁？Self-Attention 知道！
+  </text>
+  <text x="310" y="635" text-anchor="middle" font-size="13" fill="#78350f">
+    "它" 的注意力高度集中在 "猫" 上
+  </text>
+
+  <!-- Right example -->
+  <rect x="580" y="550" width="460" height="100" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="810" y="580" text-anchor="middle" font-size="16" fill="#5b21b6">
+    "苹果发布了新产品"
+  </text>
+  <text x="810" y="610" text-anchor="middle" font-size="14" fill="#6d28d9">
+    ↑ "苹果" = 水果还是公司？看上下文！
+  </text>
+  <text x="810" y="635" text-anchor="middle" font-size="13" fill="#5b21b6">
+    "苹果" 的注意力看到 "发布"、"产品"→ 公司
+  </text>
+
+  <!-- Comparison -->
+  <rect x="1080" y="550" width="440" height="100" rx="10" fill="#d1fae5" stroke="#2d8a4e" stroke-width="2" filter="url(#sketchy)"/>
+  <text x="1300" y="578" text-anchor="middle" font-size="15" fill="#065f46" font-weight="bold">
+    对比传统方法：
+  </text>
+  <text x="1300" y="605" text-anchor="middle" font-size="14" fill="#065f46">
+    RNN：必须按顺序读，远距离信息会遗忘
+  </text>
+  <text x="1300" y="630" text-anchor="middle" font-size="14" fill="#065f46">
+    Attention：所有词直接互相"看到"
+  </text>
+
+  <!-- ==================== BOTTOM: KEY FORMULA ==================== -->
+  <rect x="350" y="710" width="900" height="80" rx="14" fill="#f8fafc" stroke="#475569" stroke-width="3" filter="url(#sketchy)"/>
+  <text x="800" y="745" text-anchor="middle" font-size="18" fill="#1e293b" class="label-en">
+    Core Formula:  Attention(Q, K, V) = softmax( Q·K^T / √d_k ) · V
+  </text>
+  <text x="800" y="773" text-anchor="middle" font-size="14" fill="#64748b">
+    "谁和谁相关"（Q·K^T）→ "多相关"（softmax）→ "关注什么"（·V）
+  </text>
+
+  <!-- Step labels at the top -->
+  <text x="180" y="100" text-anchor="middle" font-size="13" fill="#3b82d0" class="label-en">Step 1</text>
+  <text x="555" y="100" text-anchor="middle" font-size="13" fill="#d4920a" class="label-en">Step 2</text>
+  <text x="960" y="100" text-anchor="middle" font-size="13" fill="#2d8a4e" class="label-en">Step 3</text>
+  <text x="1375" y="100" text-anchor="middle" font-size="13" fill="#7c3aed" class="label-en">Step 4</text>
+
+  <!-- ==================== MULTI-HEAD NOTE ==================== -->
+  <text x="800" y="850" text-anchor="middle" font-size="16" fill="#475569">
+    💡 实际 Transformer 使用 Multi-Head Attention：把 Q/K/V 切成 h 份，并行做 h 次注意力，最后拼接
+  </text>
+  <text x="800" y="878" text-anchor="middle" font-size="13" fill="#94a3b8" class="label-en">
+    Multi-Head: h=8 heads, each with d_k = d_model/h = 64 dimensions
+  </text>
+</svg>

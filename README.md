@@ -15,7 +15,7 @@
 <p align="center"><em>SVG · Transformer 自注意力机制教学图（16:9）</em></p>
 
 <p align="center">
-  <img src="examples/svg/example3_python_learning_path.png" width="30%" />
+  <img src="examples/svg/example3_python_learning_path.png" width="80%" />
 </p>
 <p align="center"><em>SVG · 深度学习知识图谱（1:1）&nbsp;&nbsp;|&nbsp;&nbsp;Python 学习路径（A4 竖版）</em></p>
 
